@@ -88,13 +88,6 @@ Insert into TopicPoints values (null, 'Schlacht 7', 'Lorem ipsum dolor sit amet,
 Insert into TopicPoints values (null, 'Schlacht 9', 'Lorem ipsum dolor sit amet, </br> consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', 4, now(), 1);
 Insert into TopicPoints values (null, 'Schlacht 5', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', 4, now(), 1);
 
-Insert into UserComments values (null, 2, 2, 'Irgendein Comment2', now());
-
-Insert into UserComments values (null, 1, 1, 'Irgendein Comment2', now());
-
-
-Insert into UserCommentUpvotes values (2, 1);
-
 
 
 
