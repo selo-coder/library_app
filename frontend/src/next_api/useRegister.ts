@@ -32,7 +32,7 @@ export const useRegister = (): (({
     }
     try {
       const registrationResponse = await axios.post(
-        'http://127.0.0.1:5000/auth/register/',
+        'http://185.237.15.64:5000/auth/register/',
         requestBody,
         {
           headers: {

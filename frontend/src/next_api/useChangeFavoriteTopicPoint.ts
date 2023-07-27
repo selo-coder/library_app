@@ -32,7 +32,7 @@ export const useChangeFavoriteTopicPoint = (): (({
     }
     try {
       const registrationResponse = await axios.post(
-        'http://127.0.0.1:5000/changeFavoriteTopicPoint/',
+        'http://185.237.15.64:5000/changeFavoriteTopicPoint/',
         requestBody,
         {
           headers: {
