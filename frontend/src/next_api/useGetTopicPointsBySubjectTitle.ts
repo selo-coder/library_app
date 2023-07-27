@@ -6,7 +6,7 @@ import { getCurrentUserId } from '../utils'
 export const useGetTopicPointsBySubjectTitle = (subjectTitle: string) => {
   const [cookies] = useCookies(['jwtToken'])
 
-  const url = `http://192.168.0.172:5000/getTopicPointsBySubjectTitle/?subjectTitle=${subjectTitle}&userId=${getCurrentUserId(
+  const url = `http://127.0.0.1:5000/getTopicPointsBySubjectTitle/?subjectTitle=${subjectTitle}&userId=${getCurrentUserId(
     cookies.jwtToken
   )}`
 

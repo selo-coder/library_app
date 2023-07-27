@@ -8,7 +8,7 @@ export const useGetRecentTopicPoints = () => {
   const [cookies] = useCookies(['jwtToken'])
 
   const url =
-    'http://192.168.0.172:5000/getRecentTopicPoints/?userId=' +
+    'http://127.0.0.1:5000/getRecentTopicPoints/?userId=' +
     getCurrentUserId(cookies.jwtToken)
 
   const { data, error, isLoading, mutate } = useSWR(url, () =>

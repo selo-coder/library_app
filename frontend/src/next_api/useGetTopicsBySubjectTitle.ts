@@ -6,7 +6,7 @@ export const useGetTopicsBySubjectTitle = (subjectTitle: string) => {
   const [cookies] = useCookies(['jwtToken'])
 
   const url =
-    'http://192.168.0.172:5000/getTopicsBySubjectTitle/?subjectTitle=' +
+    'http://127.0.0.1:5000/getTopicsBySubjectTitle/?subjectTitle=' +
     subjectTitle
 
   const { data, error, isLoading, mutate } = useSWR(url, () =>

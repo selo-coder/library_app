@@ -36,7 +36,7 @@ export const useCreateComment = (): (({
 
     try {
       const response = await axios.post(
-        'http://192.168.0.172:5000/createComment/',
+        'http://127.0.0.1:5000/createComment/',
         requestBody,
         {
           headers: {
