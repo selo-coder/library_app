@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  library-app-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    
+  library-app-database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    ports:
+      - 0.0.0.0:3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=passw0rd
+      - MYSQL_DATABASE=database_library
+      - MYSQL_USER=Root_User
+      - MYSQL_PASSWORD=passw0rd
+
+  library-app-backend:
+    environment:
+      - AM_I_IN_A_DOCKER_CONTAINER=True
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - library-app-database
