@@ -96,7 +96,7 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
             )}
           </NextAppContext.Provider>
         ) : (
-          <div className="w-full h-full flex justify-center py-40 items-center">
+          <div className="w-full h-screen flex bg-darkModeColor justify-center items-start py-40">
             <Spinner className="w-12 text-gray-200 animate-spin dark:text-gray-600 fill-white" />
           </div>
         )}
