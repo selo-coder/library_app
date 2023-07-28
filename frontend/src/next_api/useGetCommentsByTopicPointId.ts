@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie'
 export const useGetCommentsByTopicPointId = (topicPointId?: string) => {
   const [cookies] = useCookies(['jwtToken'])
 
-  const url = `http://185.237.15.64:5000/getCommentsByTopicPointId/?topicPointId=${topicPointId}`
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/getCommentsByTopicPointId/?topicPointId=${topicPointId}`
 
   const { data, error, isLoading, mutate } = useSWR(
     topicPointId ? url : null,

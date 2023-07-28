@@ -8,7 +8,8 @@ export const useGetRecentTopicPoints = () => {
   const [cookies] = useCookies(['jwtToken'])
 
   const url =
-    'http://185.237.15.64:5000/getRecentTopicPoints/?userId=' +
+    process.env.NEXT_PUBLIC_API_URL +
+    '/getRecentTopicPoints/?userId=' +
     getCurrentUserId(cookies.jwtToken)
 
   const { data, error, isLoading, mutate } = useSWR(url, () =>

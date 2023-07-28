@@ -48,7 +48,7 @@ export const useEditTopicPoint = (): (({
 
     try {
       const registrationResponse = await axios.post(
-        'http://185.237.15.64:5000/editTopicPoint/',
+        process.env.NEXT_PUBLIC_API_URL + '/editTopicPoint/',
         requestBody,
         {
           headers: {

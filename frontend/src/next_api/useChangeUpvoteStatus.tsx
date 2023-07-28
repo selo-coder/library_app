@@ -28,7 +28,7 @@ export const useChangeUpvoteStatus = (): (({
 
     try {
       const response = await axios.post(
-        'http://185.237.15.64:5000/changeUpvoteStatus/',
+        process.env.NEXT_PUBLIC_API_URL + '/changeUpvoteStatus/',
         requestBody,
         {
           headers: {

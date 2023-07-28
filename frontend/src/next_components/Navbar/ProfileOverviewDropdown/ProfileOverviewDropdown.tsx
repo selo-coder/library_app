@@ -1,6 +1,7 @@
-import { FC, memo } from 'react'
+import { FC, memo, useContext } from 'react'
 import { useCookies } from 'react-cookie'
 import { useRouter } from 'next/navigation'
+import NextAppContext from '../../NextAppContext'
 
 interface ProfileOverviewDropdownProps {
   showPersonSortDropDown: boolean
@@ -13,6 +14,8 @@ const ProfileOverviewDropdown: FC<ProfileOverviewDropdownProps> = ({
 }): JSX.Element => {
   const [, , removeCookie] = useCookies(['jwtToken'])
   const router = useRouter()
+
+  const { setLoggedIn } = useContext(NextAppContext)
 
   return (
     <div
@@ -89,8 +92,10 @@ const ProfileOverviewDropdown: FC<ProfileOverviewDropdownProps> = ({
       <div
         onClick={() => {
           setShowPersonSortDropdown(false)
-          removeCookie('jwtToken')
-          window.location.href = '/auth/login'
+          removeCookie('jwtToken', { path: '/' })
+
+          setLoggedIn(false)
+          router.push('/auth/login')
         }}
         className={`dark:bg-darkModeColor dark:text-white dark:border-x-white dark:border-b-white bg-brightModeColor text-black border-x-black border-b-black w-full cursor-pointer border border-y-transparent py-4 px-4 2xl:px-10`}
       >

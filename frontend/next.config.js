@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: { appDir: true },
+  env: {
+    // eslint-disable-next-line no-undef
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || '',
+  },
   async redirects() {
     return [
       {

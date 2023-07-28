@@ -8,6 +8,7 @@ import TopicsContent from './TopicsContent'
 import TopicSlider from './TopicSlider'
 import NextAppContext from './NextAppContext'
 import AccountDropDownMenu from './AccountDropDownMenu'
+import CKEditorComponent from './CKEditorComponent'
 
 export * from './NextAppContext'
 export * from './/common'
@@ -23,4 +24,5 @@ export {
   TopicSlider,
   NextAppContext,
   AccountDropDownMenu,
+  CKEditorComponent,
 }

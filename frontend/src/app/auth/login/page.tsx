@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { CookieAuthType, ErrorType } from '../../../types'
 import { checkForErrors, filterErrors, hash } from '../../../utils'
@@ -15,6 +15,7 @@ import {
   Checkbox,
   ErrorMessage,
   Button,
+  NextAppContext,
 } from '../../../next_components'
 
 export type LoginData = {
@@ -23,6 +24,8 @@ export type LoginData = {
 }
 
 const LoginDialog: FC = (): JSX.Element => {
+  const { setLoggedIn } = useContext(NextAppContext)
+
   const [loginData, setLoginData] = useState<LoginData>({
     email: '',
     password: '',
@@ -96,13 +99,13 @@ const LoginDialog: FC = (): JSX.Element => {
 
   const setAuthCookies = (): void => {
     if (rememberData.hasChanged) {
-      setCookie('rememberData', String(rememberData.value))
+      setCookie('rememberData', String(rememberData.value), { path: '/' })
     }
 
     if (rememberData.value === true) {
-      removeCookie('email')
-      removeCookie('password')
-      setCookie('email', loginData.email)
+      removeCookie('email', { path: '/' })
+      removeCookie('password', { path: '/' })
+      setCookie('email', loginData.email, { path: '/' })
       setCookie(
         'password',
         (
@@ -110,11 +113,12 @@ const LoginDialog: FC = (): JSX.Element => {
             loginData.password,
             'lolberg1234!?1234'
           ) as CryptoJS.lib.CipherParams
-        ).toString()
+        ).toString(),
+        { path: '/' }
       )
     } else {
-      removeCookie('email')
-      removeCookie('password')
+      removeCookie('email', { path: '/' })
+      removeCookie('password', { path: '/' })
     }
   }
 
@@ -141,7 +145,9 @@ const LoginDialog: FC = (): JSX.Element => {
             setCookie('jwtToken', response.jwtToken, { path: '/' })
 
             setLoginInitiated(false)
-            window.location.href = '/'
+
+            setLoggedIn(true)
+            router.push('/')
           } else if (
             response.statusCode === 500 &&
             response.message === 'Login data wrong'

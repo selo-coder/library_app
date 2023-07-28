@@ -20,9 +20,15 @@ import {
   useGetSubjects,
 } from '../../../next_api'
 import { ErrorType } from '../../../types'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+
 import { ArrowLeft, ArrowUp, Spinner } from '../../../assets'
+
+import dynamic from 'next/dynamic'
+
+const CKEditorComponent = dynamic(
+  () => import('../../../next_components/CKEditorComponent'),
+  { ssr: false }
+)
 
 export default function Page({ params }: { params: { topicPointId: string } }) {
   const [cookie] = useCookies(['jwtToken'])
@@ -237,16 +243,7 @@ export default function Page({ params }: { params: { topicPointId: string } }) {
         >
           Beitrag Inhalt
         </span>
-        <CKEditor
-          onError={(error) => {
-            console.log(error)
-          }}
-          editor={ClassicEditor}
-          data={content}
-          onChange={(event, editor) => {
-            setContent(editor.getData())
-          }}
-        />
+        <CKEditorComponent content={content} setContent={setContent} />
       </div>
 
       <div

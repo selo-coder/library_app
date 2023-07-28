@@ -51,7 +51,7 @@ export const useCreateTopicPoint = (): (({
 
     try {
       const loginResponse = await axios.post(
-        'http://185.237.15.64:5000/createTopicPoint/',
+        process.env.NEXT_PUBLIC_API_URL + '/createTopicPoint/',
         requestBody,
         {
           headers: {

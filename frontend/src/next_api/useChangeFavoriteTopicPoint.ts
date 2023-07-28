@@ -32,7 +32,7 @@ export const useChangeFavoriteTopicPoint = (): (({
     }
     try {
       const registrationResponse = await axios.post(
-        'http://185.237.15.64:5000/changeFavoriteTopicPoint/',
+        process.env.NEXT_PUBLIC_API_URL + '/changeFavoriteTopicPoint/',
         requestBody,
         {
           headers: {

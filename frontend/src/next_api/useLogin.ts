@@ -27,7 +27,7 @@ export const useLogin = (): (({
 
     try {
       const loginResponse = await axios.post(
-        'http://185.237.15.64:5000/auth/login/',
+        process.env.NEXT_PUBLIC_API_URL + '/auth/login/',
         requestBody,
         {
           headers: {

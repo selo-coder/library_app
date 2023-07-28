@@ -15,13 +15,17 @@ import {
   UserComment,
   Pagination,
 } from '../../../../next_components/'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import {
   useGetCommentsByTopicPointId,
   useCreateComment as useCreateCommentHook,
   useChangeUpvoteStatus as useChangeUpvoteStatusHook,
 } from '../../../../next_api'
+import dynamic from 'next/dynamic'
+
+const CKEditorComponent = dynamic(
+  () => import('../../../../next_components/CKEditorComponent'),
+  { ssr: false }
+)
 
 export default function Page() {
   const { topicPointsList } = useContext(NextAppContext)
@@ -174,15 +178,9 @@ export default function Page() {
         {showInput && (
           <div className="flex flex-col gap-4 mb-4">
             <div className="text-black">
-              <CKEditor
-                onError={(error) => {
-                  console.log(error)
-                }}
-                editor={ClassicEditor}
-                data={textAreaInput}
-                onChange={(event, editor) => {
-                  setTextAreaInput(editor.getData())
-                }}
+              <CKEditorComponent
+                content={textAreaInput}
+                setContent={setTextAreaInput}
               />
             </div>
 

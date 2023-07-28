@@ -32,7 +32,7 @@ export const useRegister = (): (({
     }
     try {
       const registrationResponse = await axios.post(
-        'http://185.237.15.64:5000/auth/register/',
+        process.env.NEXT_PUBLIC_API_URL + '/auth/register/',
         requestBody,
         {
           headers: {

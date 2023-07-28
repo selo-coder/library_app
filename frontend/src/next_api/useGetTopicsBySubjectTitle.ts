@@ -6,7 +6,8 @@ export const useGetTopicsBySubjectTitle = (subjectTitle: string) => {
   const [cookies] = useCookies(['jwtToken'])
 
   const url =
-    'http://185.237.15.64:5000/getTopicsBySubjectTitle/?subjectTitle=' +
+    process.env.NEXT_PUBLIC_API_URL +
+    '/getTopicsBySubjectTitle/?subjectTitle=' +
     subjectTitle
 
   const { data, error, isLoading, mutate } = useSWR(url, () =>

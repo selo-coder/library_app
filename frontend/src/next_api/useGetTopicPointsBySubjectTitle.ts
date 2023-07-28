@@ -6,9 +6,11 @@ import { getCurrentUserId } from '../utils'
 export const useGetTopicPointsBySubjectTitle = (subjectTitle: string) => {
   const [cookies] = useCookies(['jwtToken'])
 
-  const url = `http://185.237.15.64:5000/getTopicPointsBySubjectTitle/?subjectTitle=${subjectTitle}&userId=${getCurrentUserId(
-    cookies.jwtToken
-  )}`
+  const url =
+    process.env.NEXT_PUBLIC_API_URL +
+    `/getTopicPointsBySubjectTitle/?subjectTitle=${subjectTitle}&userId=${getCurrentUserId(
+      cookies.jwtToken
+    )}`
 
   const { data, error, isLoading, mutate } = useSWR(url, () =>
     fetcher(url, cookies.jwtToken)

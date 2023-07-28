@@ -63,6 +63,8 @@ export type NextAppContextType = {
   setTopicPointsList: (topicPointList: TopicPointList) => void
   topicList: Subject
   setTopicList: (topicPointList: Subject) => void
+  loggedIn: boolean | undefined
+  setLoggedIn: (loggedIn: boolean | undefined) => void
 }
 
 const NextAppContext = createContext<NextAppContextType>({
@@ -72,6 +74,8 @@ const NextAppContext = createContext<NextAppContextType>({
   setTopicPointsList: () => {},
   topicList: {} as Subject,
   setTopicList: () => {},
+  loggedIn: false,
+  setLoggedIn: () => {},
 })
 
 export default NextAppContext

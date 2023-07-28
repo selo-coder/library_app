@@ -24,7 +24,7 @@ export const useDeleteTopicPoint = (): (({
 
     try {
       const registrationResponse = await axios.post(
-        'http://185.237.15.64:5000/deleteTopicPoint/',
+        process.env.NEXT_PUBLIC_API_URL + '/deleteTopicPoint/',
         requestBody,
         {
           headers: {
