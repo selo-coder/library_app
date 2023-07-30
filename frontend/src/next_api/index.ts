@@ -14,6 +14,7 @@ import { useChangeUpvoteStatus } from './useChangeUpvoteStatus'
 import { useLogin } from './useLogin'
 import { useRegister } from './useRegister'
 import { useGetTopicsBySubjectTitle } from './useGetTopicsBySubjectTitle'
+import { useUpdateUserData } from './useUpdateUserData'
 
 export {
   useGetSubjects,
@@ -32,4 +33,5 @@ export {
   useLogin,
   useRegister,
   useGetTopicsBySubjectTitle,
+  useUpdateUserData,
 }

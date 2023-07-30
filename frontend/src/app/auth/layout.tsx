@@ -2,10 +2,10 @@ import { Book } from '../../assets'
 
 const AuthLayout = ({ children }: { children: JSX.Element }) => {
   return (
-    <div className="h-full min-h-screen relative w-full content-stretch	flex flex-col lg:flex-row">
+    <div className="h-full min-h-screen relative w-full	flex flex-col lg:flex-row">
       <div
         style={{ minWidth: '50%' }}
-        className="lg:min-h-screen flex-1 relativ bg-red-500 flex justify-center"
+        className="lg:min-h-screen relativ bg-red-500 flex justify-center"
       >
         <div className="flex flew-row lg:flex-col justify-around w-full lg:justify-center items-center gap-10 p-2 lg:p-0 text-white text-center">
           <Book className="h-20 w-20 sm:w-28 sm:h-28 lg:w-40 lg:h-40 stroke-white" />

@@ -18,6 +18,8 @@ from .edit_topic_point import *
 from .create_comment import *
 from .change_upvote_status import *
 from .get_comments_by_topic_point_id import *
+from .update_user_data import *
+
 
 
 

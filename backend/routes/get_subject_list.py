@@ -23,6 +23,7 @@ def get_subject_list():
             results = execute_sql_select(cursor, f"SELECT * FROM Subjects s "
                                                  f"LEFT JOIN Topics t "
                                                  f"ON t.subjectId = s.subjectId;")
+
             if results and len(results) > 0:
                 subjectList = []
                 temp_results = list(results)
@@ -38,9 +39,8 @@ def get_subject_list():
                                                     'topicList': []})
 
                             if isinstance(results[x][3], str):
-                                if not results[x][3] in str(subjectList[len(subjectList) - 1]['topicList']):
-                                    subjectList[len(subjectList) - 1]['topicList'].append({"topicTitle": results[x][3],
-                                                                                           "topicId": results[x][2]})
+                                subjectList[len(subjectList) - 1]['topicList'].append({"topicTitle": results[x][3],
+                                                                                       "topicId": results[x][2]})
 
                             temp_results.remove(results[x])
 

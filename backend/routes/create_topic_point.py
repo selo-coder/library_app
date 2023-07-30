@@ -34,14 +34,10 @@ def create_topic_point():
                     and isinstance(data.get('userId'), str) \
                     and data.get('createNewTopic') == 'true':
 
-                results = execute_sql_select(cursor, f"SELECT * FROM Topics t "
-                                                     f"INNER JOIN Subjects s "
-                                                     f"ON s.subjectId = t.subjectId "
-                                                     f"WHERE s.SubjectTitle = "
-                                                     f"'{data.get('subjectTitle')}' "
-                                                     f"AND t.topicTitle = "
-                                                     f"'{data.get('topicTitle')}';")
-
+                results = execute_sql_select(cursor, f"SELECT * FROM Topics "
+                                                     f"WHERE topicTitle = '{data.get('topicTitle')}' "
+                                                     f"and subjectId = '{data.get('subjectId')}';")
+                # duplicate topic !
                 if results:
                     return {"message": "Duplicate"}, 500
 
@@ -74,7 +70,7 @@ def create_topic_point():
                                                      f"WHERE tp.topicPointTitle = '{data.get('topicPointTitle')}' "
                                                      f"AND tp.topicId = '{data.get('topicId')}' "
                                                      f"AND t.subjectId = '{data.get('subjectId')}';")
-
+                # duplicate topicPoint !
                 if results and len(results) > 0:
                     return {"message": "Duplicate"}, 500
                 try:
