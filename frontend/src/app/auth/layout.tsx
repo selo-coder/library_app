@@ -19,7 +19,7 @@ const AuthLayout = ({ children }: { children: JSX.Element }) => {
       </div>
       <div
         style={{
-          backgroundImage: `url("/images/lib.jpg")`,
+          backgroundImage: `url("/images/lib.webp")`,
         }}
         className="flex flex-col bg-cover bg-black flex-1 h-full lg:min-h-screen py-24 w-full justify-center items-center"
       >
