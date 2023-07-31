@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { checkForErrors, filterErrors, getCurrentUserId } from '../../utils'
 import { ErrorType } from '../../types'
 import {
-  useCreateTopicPoint as useCreateTopicPointHook,
+  createTopicPoint,
   useGetRecentTopicPoints,
   useGetSubjects,
 } from '../../next_api'
@@ -84,15 +84,13 @@ export default function Page() {
     },
     {
       // eslint-disable-next-line no-useless-escape
-      condition: /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(
+      condition: /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(
         currentSelectedTopic?.topicTitle || ''
       ),
       errorMessage:
         'Es dürfen keine Sonderzeichen genutzt werden. Bitte die Eingaben überprüfen und erneut probieren.',
     },
   ]
-
-  const useCreateTopicPoint = useCreateTopicPointHook()
 
   const initiateCreateTopicPoint = async () => {
     try {
@@ -119,7 +117,10 @@ export default function Page() {
               : { topicId: currentSelectedTopic?.topicId || '' }),
           }
 
-          const response = await useCreateTopicPoint(obj)
+          const response = await createTopicPoint({
+            jwtToken: cookie.jwtToken,
+            body: obj,
+          })
 
           if (response.statusCode === 200) {
             setCreationLoading(false)

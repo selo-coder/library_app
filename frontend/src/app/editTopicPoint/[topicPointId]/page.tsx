@@ -16,9 +16,9 @@ import { useRouter } from 'next/navigation'
 import { checkForErrors, filterErrors, getCurrentUserId } from '../../../utils'
 import {
   useGetTopicPointsByUserId,
-  useEditTopicPoint as useEditTopicPointHook,
   useGetRecentTopicPoints,
   useGetSubjects,
+  editTopicPoint,
 } from '../../../next_api'
 import { ErrorType } from '../../../types'
 import { ArrowLeft, ArrowUp, Spinner } from '../../../assets'
@@ -65,9 +65,8 @@ export default function Page({ params }: { params: { topicPointId: string } }) {
 
   const router = useRouter()
 
-  const { userTopicPointsList } = useGetTopicPointsByUserId(
-    getCurrentUserId(cookie.jwtToken)
-  )
+  const { userTopicPointsList, mutateUserTopicPoints } =
+    useGetTopicPointsByUserId(getCurrentUserId(cookie.jwtToken))
 
   useEffect(() => {
     if (createClicked)
@@ -157,11 +156,10 @@ export default function Page({ params }: { params: { topicPointId: string } }) {
   const { mutateSubjects } = useGetSubjects()
   const { mutateRecentTopicPoints } = useGetRecentTopicPoints()
 
-  const useEditTopicPoint = useEditTopicPointHook()
-
   const resetData = (): void => {
     mutateRecentTopicPoints()
     mutateSubjects()
+    mutateUserTopicPoints()
     setTopicPointsList({} as TopicPointList)
     setTopicList({} as Subject)
   }
@@ -179,7 +177,6 @@ export default function Page({ params }: { params: { topicPointId: string } }) {
           setCreationLoading(true)
 
           const obj = {
-            jwtToken: cookie.jwtToken,
             topicPointId: params.topicPointId || '',
             ...(topicPointTitle !== initialTopicPointTitle && {
               topicPointTitle,
@@ -197,7 +194,10 @@ export default function Page({ params }: { params: { topicPointId: string } }) {
               }),
           }
 
-          const response = await useEditTopicPoint(obj)
+          const response = await editTopicPoint({
+            jwtToken: cookie.jwtToken,
+            body: obj,
+          })
 
           if (response.statusCode === 200) {
             setCreationLoading(false)

@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Star } from '../../assets'
 import { useCookies } from 'react-cookie'
 import {
-  useChangeFavoriteTopicPoint as useChangeFavoriteTopicPointHook,
+  changeFavoriteTopicPoint,
   useGetRecentTopicPoints,
   useGetTopicPointsBySubjectTitle,
 } from '../../next_api'
@@ -20,8 +20,6 @@ const TopicPointFavoriteButton: FC<TopicPointFavoriteButtonProps> = ({
 
   const [cookie] = useCookies(['jwtToken'])
 
-  const useChangeFavoriteTopicPoint = useChangeFavoriteTopicPointHook()
-
   const { mutateTopicPoints } = useGetTopicPointsBySubjectTitle(
     pathnameArray[0]
   )
@@ -30,11 +28,13 @@ const TopicPointFavoriteButton: FC<TopicPointFavoriteButtonProps> = ({
 
   const handleChangeFavoriteTopicPoint = async (): Promise<void> => {
     try {
-      const response = await useChangeFavoriteTopicPoint({
+      const response = await changeFavoriteTopicPoint({
         jwtToken: cookie.jwtToken,
-        userId: getCurrentUserId(cookie.jwtToken),
-        topicPointId: selectedTopicPoint?.topicPointId.toString() || '',
-        favorite: selectedTopicPoint?.favorite === true ? 'true' : 'false',
+        body: {
+          userId: getCurrentUserId(cookie.jwtToken),
+          topicPointId: selectedTopicPoint?.topicPointId.toString() || '',
+          favorite: selectedTopicPoint?.favorite === true ? 'true' : 'false',
+        },
       })
       if (response.statusCode === 200) {
         mutateTopicPoints()

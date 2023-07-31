@@ -1,7 +1,7 @@
 'use client'
 
 import { FC, useEffect, useState } from 'react'
-import { useRegister as useRegisterHook } from '../../../next_api'
+import { register } from '../../../next_api'
 import { ErrorType, User } from '../../../types'
 import * as EmailValidator from 'email-validator'
 import { checkForErrors, filterErrors, hash } from '../../../utils'
@@ -61,7 +61,6 @@ const RegisterDialog: FC = (): JSX.Element => {
         'Registrierung fehlgeschlagen. Bitte überprüfen Sie ihre Daten und probieren Sie es erneut.',
     },
   ]
-  const useRegister = useRegisterHook()
 
   useEffect(() => {
     if (registerClicked)
@@ -83,9 +82,11 @@ const RegisterDialog: FC = (): JSX.Element => {
         ) {
           setRegisterInitiated(true)
 
-          const response = await useRegister({
-            ...userData,
-            password: hash(userData.password),
+          const response = await register({
+            body: {
+              ...userData,
+              password: hash(userData.password),
+            },
           })
 
           if (response.statusCode === 200)

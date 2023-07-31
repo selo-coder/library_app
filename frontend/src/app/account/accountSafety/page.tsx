@@ -6,7 +6,7 @@ import { ErrorType } from '../../../types'
 import { getCurrentUserId, hash } from '../../../utils'
 import * as EmailValidator from 'email-validator'
 import { useCookies } from 'react-cookie'
-import { useUpdateUserData as useUpdateUserDataProps } from '../../../next_api'
+import { updateUserData } from '../../../next_api'
 
 export type GenericResponseType = {
   statusCode: number
@@ -25,8 +25,6 @@ export default function Page() {
   )
 
   const [cookie] = useCookies(['jwtToken'])
-
-  const currentUserId = getCurrentUserId(cookie.jwtToken)
 
   const [oldEmail, setOldEmail] = useState<string>('')
   const [newEmail, setNewEmail] = useState<string>('')
@@ -124,20 +122,17 @@ export default function Page() {
       )
   }, [oldEmail, newEmail, emailUpdateClicked])
 
-  const useUpdateUserData = useUpdateUserDataProps()
-
   const handleUpdatePassword = async () => {
     try {
       checkForPasswordErrors().then(async (errors: string[]) => {
         if (errors?.length === 0) {
-          const response = await useUpdateUserData({
+          const response = await updateUserData({
             jwtToken: cookie.jwtToken,
-            userId: currentUserId,
-            ...(oldPassword &&
-              newPassword && {
-                oldPassword: hash(oldPassword),
-                newPassword: hash(newPassword),
-              }),
+            body: {
+              userId: getCurrentUserId(cookie.jwtToken),
+              newPassword: hash(newPassword),
+              oldPassword: hash(oldPassword),
+            },
           })
 
           if (response.statusCode === 200) {
@@ -163,14 +158,13 @@ export default function Page() {
     try {
       checkForEmailErrors().then(async (errors: string[]) => {
         if (errors?.length === 0) {
-          const response = await useUpdateUserData({
+          const response = await updateUserData({
             jwtToken: cookie.jwtToken,
-            userId: currentUserId,
-            ...(oldEmail &&
-              newEmail && {
-                oldEmail,
-                newEmail,
-              }),
+            body: {
+              userId: getCurrentUserId(cookie.jwtToken),
+              oldEmail,
+              newEmail,
+            },
           })
 
           if (response.statusCode === 200) {

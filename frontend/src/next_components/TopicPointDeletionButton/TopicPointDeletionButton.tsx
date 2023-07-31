@@ -1,7 +1,7 @@
 import { FC, useRef, useState } from 'react'
 import { Trash } from '../../assets'
 import {
-  useDeleteTopicPoint as useDeleteTopicPointHook,
+  deleteTopicPoint,
   useGetRecentTopicPoints,
   useGetSubjects,
   useGetTopicPointsBySubjectTitle,
@@ -42,22 +42,15 @@ const TopicPointDeletionButton: FC<TopicPointDeletionButtonProps> = ({
   )
   const { mutateTopics } = useGetTopicsBySubjectTitle(pathnameArray[0])
 
-  const useDeleteTopicPoint = useDeleteTopicPointHook()
-
   const handleDeleteTopicPoint = async (): Promise<void> => {
     try {
-      const response = await useDeleteTopicPoint({
+      const response = await deleteTopicPoint({
         jwtToken: cookie.jwtToken,
-        topicPointId: selectedTopicPoint?.topicPointId.toString() || '',
+        body: {
+          topicPointId: selectedTopicPoint?.topicPointId.toString() || '',
+        },
       })
       if (response.statusCode === 200 && pathnameArray[0] && pathnameArray[1]) {
-        // initiateGetTopicPointsBySubjectTitle(pathnameArray[0], pathnameArray[1])
-        // initiateGetRecentTopicPoints()
-        // initiateGetSubjectsList()
-        // initiateGetTopicsBySubjectTitle(pathnameArray[0])
-        // initiateGetTopicPointsByUserId()
-        // if (favoriteTopicPointsList) initiateGetFavoriteTopicPointsByUserId()
-
         mutateRecentTopicPoints()
         mutateSubjects()
         mutateTopicPoints()

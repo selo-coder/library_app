@@ -17,8 +17,8 @@ import {
 } from '../../../../next_components/'
 import {
   useGetCommentsByTopicPointId,
-  useCreateComment as useCreateCommentHook,
-  useChangeUpvoteStatus as useChangeUpvoteStatusHook,
+  changeUpvoteStatus,
+  createComment,
 } from '../../../../next_api'
 
 export default function Page() {
@@ -56,15 +56,13 @@ export default function Page() {
     setUpdate(!update)
   }
 
-  const useChangeUpvoteStatus = useChangeUpvoteStatusHook()
   const handleChangeUpvoteStatus = async (
     userCommentId: string
   ): Promise<void> => {
     try {
-      const response = await useChangeUpvoteStatus({
+      const response = await changeUpvoteStatus({
         jwtToken: cookie.jwtToken,
-        userId: currentUserId,
-        userCommentId,
+        body: { userId: currentUserId, userCommentId },
       })
       if (response.statusCode === 200 && selectedTopicPoint) {
         mutate()
@@ -74,20 +72,22 @@ export default function Page() {
     }
   }
 
-  const useCreateComment = useCreateCommentHook()
   const handleCreateComment = async (): Promise<void> => {
     try {
-      const response = await useCreateComment({
+      const response = await createComment({
         jwtToken: cookie.jwtToken,
-        userId: currentUserId,
-        topicPointId: selectedTopicPoint?.topicPointId || '',
-        comment: textAreaInput,
-        ...(selectedImage && { imageBase64String: selectedImage }),
+        body: {
+          userId: currentUserId,
+          topicPointId: selectedTopicPoint?.topicPointId || '',
+          comment: textAreaInput,
+          ...(selectedImage && { imageBase64String: selectedImage }),
+        },
       })
       if (response.statusCode === 200 && selectedTopicPoint) {
         mutate()
         setShowInput(false)
         setTextAreaInput('')
+        setSelectedImage('')
       }
     } catch (error) {
       console.log(error)

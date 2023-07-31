@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { CookieAuthType, ErrorType } from '../../../types'
 import { checkForErrors, filterErrors, hash } from '../../../utils'
 import * as EmailValidator from 'email-validator'
-import { useLogin as useLoginHook } from '../../../next_api'
 import { useCookies } from 'react-cookie'
 import { ClosedEye, OpenEye } from '../../../assets'
 import CryptoJS, { AES } from 'crypto-js'
@@ -17,6 +16,7 @@ import {
   Button,
   NextAppContext,
 } from '../../../next_components'
+import { login } from '../../../next_api'
 
 export type LoginData = {
   email: string
@@ -48,8 +48,6 @@ const LoginDialog: FC = (): JSX.Element => {
     value: cookies.rememberData === 'true' ? true : false,
     hasChanged: false,
   })
-
-  const useLogin = useLoginHook()
 
   const errorList: ErrorType[] = [
     {
@@ -135,9 +133,11 @@ const LoginDialog: FC = (): JSX.Element => {
         ) {
           setLoginInitiated(true)
 
-          const response = await useLogin({
-            ...loginData,
-            password: hash(loginData.password),
+          const response = await login({
+            body: {
+              email: loginData.email,
+              password: hash(loginData.password),
+            },
           })
 
           if (response.statusCode === 200) {
