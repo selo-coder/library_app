@@ -9,6 +9,7 @@ import {
   TopicPointList,
   Input,
   ErrorMessage,
+  TextareaInput,
 } from '../../../next_components'
 import { useCookies } from 'react-cookie'
 import { useRouter } from 'next/navigation'
@@ -20,15 +21,7 @@ import {
   useGetSubjects,
 } from '../../../next_api'
 import { ErrorType } from '../../../types'
-
 import { ArrowLeft, ArrowUp, Spinner } from '../../../assets'
-
-import dynamic from 'next/dynamic'
-
-const CKEditorComponent = dynamic(
-  () => import('../../../next_components/CKEditorComponent'),
-  { ssr: false }
-)
 
 export default function Page({ params }: { params: { topicPointId: string } }) {
   const [cookie] = useCookies(['jwtToken'])
@@ -243,7 +236,7 @@ export default function Page({ params }: { params: { topicPointId: string } }) {
         >
           Beitrag Inhalt
         </span>
-        <CKEditorComponent content={content} setContent={setContent} />
+        <TextareaInput content={content} setContent={setContent} size="big" />
       </div>
 
       <div

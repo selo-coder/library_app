@@ -17,14 +17,9 @@ import {
   Topic,
   TopicPointList,
   NextAppContext,
+  TextareaInput,
 } from '../../next_components'
 import { ArrowLeft, ArrowUp, Spinner } from '../../assets'
-import dynamic from 'next/dynamic'
-
-const CKEditorComponent = dynamic(
-  () => import('../../next_components/CKEditorComponent'),
-  { ssr: false }
-)
 
 export default function Page() {
   const [cookie] = useCookies(['jwtToken'])
@@ -166,7 +161,7 @@ export default function Page() {
         >
           Beitrag Inhalt
         </span>
-        <CKEditorComponent content={content} setContent={setContent} />
+        <TextareaInput content={content} setContent={setContent} size="big" />
       </div>
 
       <div

@@ -3,7 +3,6 @@
 
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Parser from 'html-react-parser'
 import { getCrumbsFromPathname, getCurrentUserId } from '../../../../utils'
 import { useCookies } from 'react-cookie'
 import { Pen } from '../../../../assets'
@@ -14,18 +13,13 @@ import {
   TopicPoint,
   UserComment,
   Pagination,
+  TextareaInput,
 } from '../../../../next_components/'
 import {
   useGetCommentsByTopicPointId,
   useCreateComment as useCreateCommentHook,
   useChangeUpvoteStatus as useChangeUpvoteStatusHook,
 } from '../../../../next_api'
-import dynamic from 'next/dynamic'
-
-const CKEditorComponent = dynamic(
-  () => import('../../../../next_components/CKEditorComponent'),
-  { ssr: false }
-)
 
 export default function Page() {
   const { topicPointsList } = useContext(NextAppContext)
@@ -158,7 +152,9 @@ export default function Page() {
           style={{ height: '1px' }}
           className={`w-full rounded dark:bg-brightModeColor bg-darkModeColor`}
         />
-        <p className="text-lg">{Parser(selectedTopicPoint.content)}</p>
+        <p className="text-lg whitespace-pre-line	">
+          {selectedTopicPoint.content}
+        </p>
       </div>
 
       <div
@@ -176,11 +172,12 @@ export default function Page() {
           </button>
         </div>
         {showInput && (
-          <div className="flex flex-col gap-4 mb-4">
-            <div className="text-black">
-              <CKEditorComponent
+          <div className="flex flex-col gap-4 mb-4 w-full">
+            <div className="text-black w-full">
+              <TextareaInput
                 content={textAreaInput}
                 setContent={setTextAreaInput}
+                size="small"
               />
             </div>
 
@@ -278,8 +275,8 @@ export default function Page() {
                       />
                     )}
                     <div className="flex flex-col gap-3 py-4">
-                      <span className="break-all text-sm">
-                        {Parser(userComment.comment)}
+                      <span className="break-all whitespace-pre-line text-sm ">
+                        {userComment.comment}
                       </span>
                     </div>
                   </div>

@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 // eslint-disable-next-line no-undef
 
-export const content = ['./src/**/*.{html,js,ts,tsx}']
 export const theme = {
   extend: {
     transitionProperty: {
@@ -38,7 +37,4 @@ export const theme = {
 }
 
 export const darkMode = 'class'
-export const purge = {
-  enabled: true,
-  content: ['./public/**/*.html', './src/**/*.{ts,tsx}'],
-}
+export const content = ['./public/**/*.html', './src/**/*.{ts,tsx}']

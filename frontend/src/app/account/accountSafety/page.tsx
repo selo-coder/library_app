@@ -3,12 +3,7 @@
 import { useEffect, useState } from 'react'
 import { ErrorMessage, Input } from '../../../next_components'
 import { ErrorType } from '../../../types'
-import {
-  checkForErrors,
-  filterErrors,
-  getCurrentUserId,
-  hash,
-} from '../../../utils'
+import { getCurrentUserId, hash } from '../../../utils'
 import * as EmailValidator from 'email-validator'
 import { useCookies } from 'react-cookie'
 import { useUpdateUserData as useUpdateUserDataProps } from '../../../next_api'
@@ -147,8 +142,10 @@ export default function Page() {
 
           if (response.statusCode === 200) {
             setSuccessfullPasswordChange(true)
+            setPasswordUpdateClicked(false)
             setNewPassword('')
             setOldPassword('')
+
             setTimeout(() => {
               setSuccessfullPasswordChange(false)
             }, 3000)
@@ -178,6 +175,9 @@ export default function Page() {
 
           if (response.statusCode === 200) {
             setSuccessfullEmailChange(true)
+
+            setEmailUpdateClicked(false)
+
             setNewEmail('')
             setOldEmail('')
 

@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
-  experimental: { appDir: true },
+  experimental: { appDir: true, serverActions: true },
   env: {
-    // eslint-disable-next-line no-undef
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || '',
   },
   async redirects() {
@@ -26,4 +27,9 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
+module.exports = withBundleAnalyzer(nextConfig)
