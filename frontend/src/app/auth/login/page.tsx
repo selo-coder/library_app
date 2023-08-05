@@ -4,24 +4,31 @@ import { FC, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { CookieAuthType, ErrorType } from '../../../types'
 import { checkForErrors, filterErrors, hash } from '../../../utils'
-import * as EmailValidator from 'email-validator'
+import { validate } from 'email-validator'
 import { useCookies } from 'react-cookie'
 import { ClosedEye, OpenEye } from '../../../assets'
-import CryptoJS, { AES } from 'crypto-js'
-import {
-  AuthHeadline,
-  Input,
-  Checkbox,
-  ErrorMessage,
-  Button,
-  NextAppContext,
-} from '../../../next_components'
+import { enc, lib, AES } from 'crypto-js/'
+import NextAppContext from '../../../next_components/NextAppContext'
 import { login } from '../../../next_api'
 
 export type LoginData = {
   email: string
   password: string
 }
+
+import dynamic from 'next/dynamic'
+
+const AuthHeadline = dynamic(
+  () => import('../../../next_components/common/AuthHeadline')
+)
+const Input = dynamic(() => import('../../../next_components/common/Input'))
+const Checkbox = dynamic(
+  () => import('../../../next_components/common/Checkbox')
+)
+const ErrorMessage = dynamic(
+  () => import('../../../next_components/common/ErrorMessage')
+)
+const Button = dynamic(() => import('../../../next_components/common/Button'))
 
 const LoginDialog: FC = (): JSX.Element => {
   const { setLoggedIn } = useContext(NextAppContext)
@@ -59,7 +66,7 @@ const LoginDialog: FC = (): JSX.Element => {
       errorMessage: 'Alle Felder müssen ausgefüllt sein',
     },
     {
-      condition: !EmailValidator.validate(loginData.email),
+      condition: !validate(loginData.email),
       errorMessage: 'E-Mail hat das falsche Format',
     },
     {
@@ -82,7 +89,7 @@ const LoginDialog: FC = (): JSX.Element => {
       setLoginData({
         email: cookies.email,
         password: AES.decrypt(cookies.password, 'lolberg1234!?1234').toString(
-          CryptoJS.enc.Utf8
+          enc.Utf8
         ),
       })
     }
@@ -110,7 +117,7 @@ const LoginDialog: FC = (): JSX.Element => {
           AES.encrypt(
             loginData.password,
             'lolberg1234!?1234'
-          ) as CryptoJS.lib.CipherParams
+          ) as lib.CipherParams
         ).toString(),
         { path: '/' }
       )

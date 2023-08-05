@@ -5,21 +5,37 @@ import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getCrumbsFromPathname, getCurrentUserId } from '../../../../utils'
 import { useCookies } from 'react-cookie'
-import { Pen } from '../../../../assets'
 import {
-  TopicPointDeletionButton,
-  TopicPointFavoriteButton,
   NextAppContext,
   TopicPoint,
   UserComment,
-  Pagination,
-  TextareaInput,
 } from '../../../../next_components/'
 import {
   useGetCommentsByTopicPointId,
   changeUpvoteStatus,
   createComment,
 } from '../../../../next_api'
+import Image from 'next/image'
+
+import dynamic from 'next/dynamic'
+
+const TopicPointDeletionButton = dynamic(
+  () => import('../../../../next_components/TopicPointDeletionButton')
+)
+
+const TopicPointFavoriteButton = dynamic(
+  () => import('../../../../next_components/TopicPointFavoriteButton')
+)
+
+const Pagination = dynamic(
+  () => import('../../../../next_components/common/Pagination')
+)
+
+const TextareaInput = dynamic(
+  () => import('../../../../next_components/common/TextareaInput')
+)
+
+const Pen = dynamic(() => import('../../../../assets/Pen'))
 
 export default function Page() {
   const { topicPointsList } = useContext(NextAppContext)
@@ -259,19 +275,24 @@ export default function Page() {
                     }`}
                   >
                     {userComment && userComment.imageBase64String !== '' && (
-                      <img
+                      <Image
                         onClick={() => {
                           handleOpenImageChange(index)
                         }}
+                        alt=""
+                        width={500}
+                        height={500}
                         className={`${
                           openImageList[index] === true
                             ? 'max-w-full max-h-full'
                             : 'w-60'
                         } cursor-pointer `}
-                        src={userComment?.imageBase64String?.slice(
-                          2,
-                          userComment?.imageBase64String.length - 1
-                        )}
+                        src={
+                          userComment?.imageBase64String?.slice(
+                            2,
+                            userComment?.imageBase64String.length - 1
+                          ) || ''
+                        }
                       />
                     )}
                     <div className="flex flex-col gap-3 py-4">

@@ -1,30 +1,32 @@
 'use client'
 
 import './globals.css'
-import { Inter } from 'next/font/google'
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
-  Footer,
-  Breadcrumbs,
-  Navbar,
   Subject,
   SubjectList,
   TopicPointList,
   NextAppContext,
 } from '../next_components'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCookies } from 'react-cookie'
-import { Spinner } from '../assets'
+import useCookies from 'react-cookie/es6/useCookies'
 // eslint-disable-next-line camelcase
 import jwt_decode, { JwtPayload } from 'jwt-decode'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
 
-const inter = Inter({ subsets: ['latin'] })
+const Footer = dynamic(() => import('../next_components/Footer'))
+
+const Breadcrumbs = dynamic(() => import('../next_components/Breadcrumbs'))
+
+const Navbar = dynamic(() => import('../next_components/Navbar'))
+
+const Spinner = dynamic(() => import('../assets/Spinner'))
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   const router = useRouter()
   const [cookie] = useCookies(['jwtToken'])
   const pathname = usePathname()
-
   const [theme, setTheme] = useState('')
   useEffect(() => {
     if (!localStorage.theme) localStorage.theme = 'light'
@@ -60,7 +62,10 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
 
   return (
     <html lang="en" className={theme}>
-      <body className={inter.className}>
+      <Head>
+        <link rel="preload" as="image" href="/images/lib.webp" />
+      </Head>
+      <body>
         {loggedIn !== undefined && cookie && theme !== '' ? (
           <NextAppContext.Provider
             value={{

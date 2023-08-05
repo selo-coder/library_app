@@ -3,8 +3,11 @@ import { useKeenSlider } from 'keen-slider/react'
 
 import { useBreakpoint } from '../../utils'
 import { RecentTopicPoint } from '../NextAppContext'
-import { ArrowLeft, ArrowRight } from '../../assets'
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
+
+const ArrowRight = dynamic(() => import('../../assets/ArrowRight'))
+const ArrowLeft = dynamic(() => import('../../assets/ArrowLeft'))
 
 interface TopicSliderProps {
   title: string

@@ -1,6 +1,4 @@
 import { FC, memo, useContext, useState } from 'react'
-import TopicsList from './TopicsList'
-import TopicPointsList from './TopicPointsList'
 import {
   useBreakpoint,
   getCrumbsFromPathname,
@@ -9,6 +7,12 @@ import {
 import { ArrowDown, ArrowUp } from '../../assets'
 import { usePathname, useRouter } from 'next/navigation'
 import { NextAppContext, SortType, Topic } from '../'
+
+import dynamic from 'next/dynamic'
+
+const TopicsList = dynamic(() => import('./TopicsList'))
+
+const TopicPointsList = dynamic(() => import('./TopicPointsList'))
 
 const TopicsContent: FC = (): JSX.Element => {
   const { topicPointsList, topicList, subjectList } = useContext(NextAppContext)

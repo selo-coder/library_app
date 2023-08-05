@@ -1,5 +1,8 @@
 import { FC, useEffect } from 'react'
-import { Moon, Sun } from '../../assets/'
+import dynamic from 'next/dynamic'
+
+const Sun = dynamic(() => import('../../assets/Sun'))
+const Moon = dynamic(() => import('../../assets/Moon'))
 
 interface FooterProps {
   darkModeActive: boolean | undefined

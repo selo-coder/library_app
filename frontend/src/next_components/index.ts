@@ -1,16 +1,22 @@
-import Breadcrumbs from './Breadcrumbs'
-import Footer from './Footer'
-import Navbar from './Navbar'
-import Sidebar from './Sidebar'
-import TopicPointDeletionButton from './TopicPointDeletionButton'
-import TopicPointFavoriteButton from './TopicPointFavoriteButton'
-import TopicsContent from './TopicsContent'
-import TopicSlider from './TopicSlider'
+import dynamic from 'next/dynamic'
 import NextAppContext from './NextAppContext'
-import AccountDropDownMenu from './AccountDropDownMenu'
+
+const Footer = dynamic(() => import('./Footer'))
+const Breadcrumbs = dynamic(() => import('./Breadcrumbs'))
+const Navbar = dynamic(() => import('./Navbar'))
+const Sidebar = dynamic(() => import('./Sidebar'))
+const TopicPointDeletionButton = dynamic(
+  () => import('./TopicPointDeletionButton')
+)
+const TopicPointFavoriteButton = dynamic(
+  () => import('./TopicPointFavoriteButton')
+)
+const TopicsContent = dynamic(() => import('./TopicsContent'))
+const TopicSlider = dynamic(() => import('./TopicSlider'))
+const AccountDropDownMenu = dynamic(() => import('./AccountDropDownMenu'))
 
 export * from './NextAppContext'
-export * from './/common'
+export * from './common'
 
 export {
   Breadcrumbs,

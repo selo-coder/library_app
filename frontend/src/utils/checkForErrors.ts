@@ -1,5 +1,5 @@
 import { SortType } from '../next_components'
-import { ErrorType } from '../types'
+import { ErrorType } from '../types/ErrorType'
 
 export const checkForErrors = async (
   errorChecks: ErrorType[]

@@ -3,11 +3,14 @@
 import { FC, memo, useContext, useEffect, useState } from 'react'
 import { Book } from '../../assets'
 import { useBreakpoint } from '../../utils'
-import ProfileOverview from './ProfileOverview'
-import NavbarItem from './NavbarItem'
 import { useRouter } from 'next/navigation'
 import { useGetSubjects } from '../../next_api'
 import { NextAppContext, Sidebar, Subject } from '../'
+import dynamic from 'next/dynamic'
+
+const NavbarItem = dynamic(() => import('./NavbarItem'))
+
+const ProfileOverview = dynamic(() => import('./ProfileOverview'))
 
 const Navbar: FC = (): JSX.Element => {
   const [currentActiveNavbarItem, setCurrentActiveNavbarItem] =

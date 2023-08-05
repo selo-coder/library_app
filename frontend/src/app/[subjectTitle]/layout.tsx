@@ -6,9 +6,15 @@ import {
   useGetTopicsBySubjectTitle,
   useGetTopicPointsBySubjectTitle,
 } from '../../next_api'
-import { TopicsContent, NextAppContext } from '../../next_components'
+import { NextAppContext } from '../../next_components'
 import { usePathname } from 'next/navigation'
 import { Spinner } from '../../assets'
+
+import dynamic from 'next/dynamic'
+
+const TopicsContent = dynamic(
+  () => import('../../next_components/TopicsContent')
+)
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   const pathnameArray = getCrumbsFromPathname(usePathname())
