@@ -1,18 +1,13 @@
 'use client'
 
 import { FC, useEffect, useState } from 'react'
-import { register } from '../../../next_api'
-import { ErrorType, User } from '../../../types'
+import { ErrorType, User } from 'types'
 import * as EmailValidator from 'email-validator'
-import { checkForErrors, filterErrors, hash } from '../../../utils'
-import { ClosedEye, OpenEye } from '../../../assets'
+import { checkForErrors, filterErrors, hash } from 'utils'
+import { ClosedEye, OpenEye } from 'assets'
 import { useRouter } from 'next/navigation'
-import {
-  AuthHeadline,
-  Button,
-  ErrorMessage,
-  Input,
-} from '../../../next_components'
+import { AuthHeadline, Button, ErrorMessage, Input } from 'components'
+import { register } from 'api'
 
 const RegisterDialog: FC = (): JSX.Element => {
   const [userData, setUserData] = useState<User>({

@@ -1,20 +1,18 @@
 'use client'
 
-import { getCrumbsFromPathname } from '../../utils'
+import { getCrumbsFromPathname } from 'utils'
 import { Suspense, useContext, useEffect } from 'react'
 import {
   useGetTopicsBySubjectTitle,
   useGetTopicPointsBySubjectTitle,
-} from '../../next_api'
-import { NextAppContext } from '../../next_components'
+} from 'api'
+import { NextAppContext } from 'components'
 import { usePathname } from 'next/navigation'
-import { Spinner } from '../../assets'
+import { Spinner } from 'assets'
 
 import dynamic from 'next/dynamic'
 
-const TopicsContent = dynamic(
-  () => import('../../next_components/TopicsContent')
-)
+const TopicsContent = dynamic(() => import('../../components/TopicsContent'))
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
   const pathnameArray = getCrumbsFromPathname(usePathname())
@@ -42,7 +40,7 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
   }, [subjectId, subjectTitle, topicList])
 
   return pathnameArray.length >= 3 ? (
-    <>{children}</>
+    children
   ) : !isLoadingTopics && !isLoadingTopicPoints ? (
     <Suspense
       fallback={

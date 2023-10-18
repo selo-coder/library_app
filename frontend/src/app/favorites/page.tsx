@@ -1,9 +1,9 @@
 'use client'
 
 import { useCookies } from 'react-cookie'
-import { useGetFavoriteTopicPointsByUserId } from '../../next_api'
-import { TopicPoint, TopicPointList, TopicSlider } from '../../next_components'
-import { getCurrentUserId } from '../../utils'
+import { useGetFavoriteTopicPointsByUserId } from 'api'
+import { TopicPoint, TopicPointList, TopicSlider } from 'components'
+import { getCurrentUserId } from 'utils'
 
 export default function Page() {
   const [cookie] = useCookies(['jwtToken'])

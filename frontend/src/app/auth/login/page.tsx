@@ -2,33 +2,31 @@
 
 import { FC, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { CookieAuthType, ErrorType } from '../../../types'
-import { checkForErrors, filterErrors, hash } from '../../../utils'
+import { CookieAuthType, ErrorType } from 'types'
+import { checkForErrors, filterErrors, hash } from 'utils'
 import { validate } from 'email-validator'
 import { useCookies } from 'react-cookie'
-import { ClosedEye, OpenEye } from '../../../assets'
+import { ClosedEye, OpenEye } from 'assets'
 import { enc, lib, AES } from 'crypto-js/'
-import NextAppContext from '../../../next_components/NextAppContext'
-import { login } from '../../../next_api'
+import { login } from 'api'
+import { NextAppContext } from 'components'
+
+import dynamic from 'next/dynamic'
+
+const AuthHeadline = dynamic(
+  () => import('../../../components/common/AuthHeadline')
+)
+const Input = dynamic(() => import('../../../components/common/Input'))
+const Checkbox = dynamic(() => import('../../../components/common/Checkbox'))
+const ErrorMessage = dynamic(
+  () => import('../../../components/common/ErrorMessage')
+)
+const Button = dynamic(() => import('../../../components/common/Button'))
 
 export type LoginData = {
   email: string
   password: string
 }
-
-import dynamic from 'next/dynamic'
-
-const AuthHeadline = dynamic(
-  () => import('../../../next_components/common/AuthHeadline')
-)
-const Input = dynamic(() => import('../../../next_components/common/Input'))
-const Checkbox = dynamic(
-  () => import('../../../next_components/common/Checkbox')
-)
-const ErrorMessage = dynamic(
-  () => import('../../../next_components/common/ErrorMessage')
-)
-const Button = dynamic(() => import('../../../next_components/common/Button'))
 
 const LoginDialog: FC = (): JSX.Element => {
   const { setLoggedIn } = useContext(NextAppContext)

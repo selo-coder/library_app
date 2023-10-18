@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ErrorMessage, Input } from '../../../next_components'
-import { ErrorType } from '../../../types'
-import { getCurrentUserId, hash } from '../../../utils'
+import { ErrorMessage, Input } from 'components'
+import { ErrorType } from 'types'
+import { getCurrentUserId, hash } from 'utils'
 import * as EmailValidator from 'email-validator'
 import { useCookies } from 'react-cookie'
-import { updateUserData } from '../../../next_api'
+import { updateUserData } from 'api'
 
 export type GenericResponseType = {
   statusCode: number

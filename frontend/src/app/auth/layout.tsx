@@ -1,4 +1,4 @@
-import { Book } from '../../assets'
+import { Book } from 'assets'
 
 const AuthLayout = ({ children }: { children: JSX.Element }) => {
   return (

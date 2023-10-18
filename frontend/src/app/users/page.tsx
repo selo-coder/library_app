@@ -1,9 +1,9 @@
 'use client'
 
-import { User } from '../../next_components'
 import { useRouter } from 'next/navigation'
-import { UserIcon } from '../../assets/'
-import { useGetUserList } from '../../next_api'
+import { User } from 'components'
+import { useGetUserList } from 'api'
+import { UserIcon } from 'assets'
 
 export default function Page() {
   const router = useRouter()

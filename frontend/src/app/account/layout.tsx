@@ -1,7 +1,7 @@
 'use client'
 
-import { useBreakpoint } from '../../utils'
-import { AccountDropDownMenu } from '../../next_components'
+import { useBreakpoint } from 'utils'
+import { AccountDropDownMenu } from 'components'
 
 export default function AccountLayout({ children }: { children: JSX.Element }) {
   const [breakpoint] = useBreakpoint()

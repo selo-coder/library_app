@@ -1,12 +1,8 @@
 'use client'
 
-import {
-  TopicSlider,
-  TopicPoint,
-  TopicPointList,
-} from '../../../next_components'
-import { useGetTopicPointsByUserId } from '../../../next_api'
-import { getCurrentUserId } from '../../../utils'
+import { TopicSlider, TopicPoint, TopicPointList } from 'components'
+import { useGetTopicPointsByUserId } from 'api'
+import { getCurrentUserId } from 'utils'
 import { useCookies } from 'react-cookie'
 
 export default function Page({ params }: { params: { userId: string } }) {

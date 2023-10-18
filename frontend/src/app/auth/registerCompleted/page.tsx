@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Button } from '../../../next_components'
+import { Button } from 'components'
 
 const RegisterCompleteDialog = (): JSX.Element => {
   const router = useRouter()

@@ -3,36 +3,31 @@
 
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { getCrumbsFromPathname, getCurrentUserId } from '../../../../utils'
+import { getCrumbsFromPathname, getCurrentUserId } from 'utils'
 import { useCookies } from 'react-cookie'
-import {
-  NextAppContext,
-  TopicPoint,
-  UserComment,
-} from '../../../../next_components/'
+import { NextAppContext, TopicPoint, UserComment } from 'components'
 import {
   useGetCommentsByTopicPointId,
   changeUpvoteStatus,
   createComment,
-} from '../../../../next_api'
+} from 'api'
 import Image from 'next/image'
-
 import dynamic from 'next/dynamic'
 
 const TopicPointDeletionButton = dynamic(
-  () => import('../../../../next_components/TopicPointDeletionButton')
+  () => import('../../../../components/TopicPointDeletionButton')
 )
 
 const TopicPointFavoriteButton = dynamic(
-  () => import('../../../../next_components/TopicPointFavoriteButton')
+  () => import('../../../../components/TopicPointFavoriteButton')
 )
 
 const Pagination = dynamic(
-  () => import('../../../../next_components/common/Pagination')
+  () => import('../../../../components/common/Pagination')
 )
 
 const TextareaInput = dynamic(
-  () => import('../../../../next_components/common/TextareaInput')
+  () => import('../../../../components/common/TextareaInput')
 )
 
 const Pen = dynamic(() => import('../../../../assets/Pen'))

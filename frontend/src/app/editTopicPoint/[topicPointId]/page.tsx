@@ -10,18 +10,18 @@ import {
   Input,
   ErrorMessage,
   TextareaInput,
-} from '../../../next_components'
+} from 'components'
 import { useCookies } from 'react-cookie'
 import { useRouter } from 'next/navigation'
-import { checkForErrors, filterErrors, getCurrentUserId } from '../../../utils'
+import { checkForErrors, filterErrors, getCurrentUserId } from 'utils'
 import {
   useGetTopicPointsByUserId,
   useGetRecentTopicPoints,
   useGetSubjects,
   editTopicPoint,
-} from '../../../next_api'
-import { ErrorType } from '../../../types'
-import { ArrowLeft, ArrowUp, Spinner } from '../../../assets'
+} from 'api'
+import { ErrorType } from 'types'
+import { ArrowLeft, ArrowUp, Spinner } from 'assets'
 
 export default function Page({ params }: { params: { topicPointId: string } }) {
   const [cookie] = useCookies(['jwtToken'])

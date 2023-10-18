@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useBreakpoint } from '../../utils'
-import { AccountDropDownMenu } from '../../next_components'
+import { useBreakpoint } from 'utils'
+import { AccountDropDownMenu } from 'components'
 
 export default function Page() {
   const accountMenuPoints = [

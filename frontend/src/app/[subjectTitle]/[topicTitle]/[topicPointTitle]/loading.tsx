@@ -1,6 +1,6 @@
 'use client'
 
-import { Spinner } from '../../../../assets'
+import { Spinner } from 'assets'
 
 export default function Loading() {
   return (

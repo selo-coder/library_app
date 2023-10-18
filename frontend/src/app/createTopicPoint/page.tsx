@@ -3,13 +3,9 @@
 import { useCookies } from 'react-cookie'
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { checkForErrors, filterErrors, getCurrentUserId } from '../../utils'
-import { ErrorType } from '../../types'
-import {
-  createTopicPoint,
-  useGetRecentTopicPoints,
-  useGetSubjects,
-} from '../../next_api'
+import { checkForErrors, filterErrors, getCurrentUserId } from 'utils'
+import { ErrorType } from 'types'
+import { createTopicPoint, useGetRecentTopicPoints, useGetSubjects } from 'api'
 import {
   Input,
   ErrorMessage,
@@ -18,8 +14,8 @@ import {
   TopicPointList,
   NextAppContext,
   TextareaInput,
-} from '../../next_components'
-import { ArrowLeft, ArrowUp, Spinner } from '../../assets'
+} from 'components'
+import { ArrowLeft, ArrowUp, Spinner } from 'assets'
 
 export default function Page() {
   const [cookie] = useCookies(['jwtToken'])
