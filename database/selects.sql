@@ -4,6 +4,10 @@ SELECT * FROM UserCommentUpvotes;
 
 SELECT * FROM UserComments;
 
+DELETE FROM UserComments WHERE userCommentId = 1;
+
+DELETE FROM UserCommentUpvotes WHERE userCommentId = 1;
+
 SELECT * FROM TopicPoints;
 
 SELECT * FROM Topics;
@@ -40,7 +44,6 @@ SELECT * FROM TopicPoints tp INNER JOIN Topics t ON tp.topicId = t.topicId INNER
 SELECT * FROM FavoriteTopicPoints ftp INNER JOIN TopicPoints tp ON tp.topicPointId = ftp.topicPointId AND ftp.userId = 3 INNER JOIN Topics t ON tp.topicId = t.topicId INNER JOIN Subjects s ON s.subjectId = t.subjectId order by s.subjectId;
 
 SELECT s.subjectId FROM FavoriteTopicPoints ftp INNER JOIN TopicPoints tp ON tp.topicPointId = ftp.topicPointId AND ftp.userId = 2 INNER JOIN Topics t ON tp.topicId = t.topicId INNER JOIN Subjects s ON s.subjectId = t.subjectId group by s.subjectId order by s.subjectId;
-
 
 SELECT tp.topicPointTitle, tp.content, tp.createdAt, (select concat(firstName,' ', lastName) from User where id = tp.createdBy) as createdBy, t.topicTitle, s.subjectId, s.subjectTitle FROM FavoriteTopicPoints ftp INNER JOIN TopicPoints tp ON tp.topicPointId = ftp.topicPointId INNER JOIN Topics t ON t.topicId = tp.topicId INNER JOIN Subjects s ON s.subjectId = t.subjectId WHERE ftp.userId = 2;
 

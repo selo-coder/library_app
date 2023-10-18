@@ -10,12 +10,18 @@ import {
   useGetCommentsByTopicPointId,
   changeUpvoteStatus,
   createComment,
+  deleteComment,
+  deleteTopicPoint,
+  useGetRecentTopicPoints,
+  useGetSubjects,
+  useGetTopicPointsBySubjectTitle,
+  useGetTopicsBySubjectTitle,
 } from 'api'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 
-const TopicPointDeletionButton = dynamic(
-  () => import('../../../../components/TopicPointDeletionButton')
+const DeletionButton = dynamic(
+  () => import('../../../../components/DeletionButton')
 )
 
 const TopicPointFavoriteButton = dynamic(
@@ -47,20 +53,25 @@ export default function Page() {
   const [currentPage, setCurrentPage] = useState<number>(0)
   const currentUserId = getCurrentUserId(cookie.jwtToken)
   const [selectedTopicPoint, setSelectedTopicPoint] = useState<TopicPoint>()
-
   const [userCommentList, setUserCommentList] = useState<UserComment[]>()
 
   const { commentList, mutate, isLoading } = useGetCommentsByTopicPointId(
     selectedTopicPoint?.topicPointId
   )
+  const { mutateRecentTopicPoints } = useGetRecentTopicPoints()
+  const { mutateSubjects } = useGetSubjects()
+  const { mutateTopicPoints } = useGetTopicPointsBySubjectTitle(
+    pathnameArray[0]
+  )
+  const { mutateTopics } = useGetTopicsBySubjectTitle(pathnameArray[0])
 
-  useEffect(() => {
-    setUserCommentList(commentList)
-  }, [commentList])
-
-  useEffect(() => {
-    if (userCommentList) setOpenImageList(userCommentList.map(() => false))
-  }, [userCommentList])
+  const handleImageChange = (e: any) => {
+    const data = new FileReader()
+    data.addEventListener('load', () => {
+      setSelectedImage(data.result as string)
+    })
+    data.readAsDataURL(e.target.files[0])
+  }
 
   const handleOpenImageChange = (imageIndex: number) => {
     openImageList.splice(imageIndex, 1, !openImageList[imageIndex])
@@ -75,9 +86,7 @@ export default function Page() {
         jwtToken: cookie.jwtToken,
         body: { userId: currentUserId, userCommentId },
       })
-      if (response.statusCode === 200 && selectedTopicPoint) {
-        mutate()
-      }
+      if (response.statusCode === 200 && selectedTopicPoint) mutate()
     } catch (error) {
       console.log(error)
     }
@@ -105,6 +114,43 @@ export default function Page() {
     }
   }
 
+  const handleDeleteComment = async (userCommentId: string): Promise<void> => {
+    try {
+      const response = await deleteComment({
+        jwtToken: cookie.jwtToken,
+        body: {
+          userCommentId,
+        },
+      })
+      if (response.statusCode === 200 && selectedTopicPoint) {
+        mutate()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleDeleteTopicPoint = async (): Promise<void> => {
+    try {
+      const response = await deleteTopicPoint({
+        jwtToken: cookie.jwtToken,
+        body: {
+          topicPointId: selectedTopicPoint?.topicPointId.toString() || '',
+        },
+      })
+      if (response.statusCode === 200 && pathnameArray[0] && pathnameArray[1]) {
+        mutateRecentTopicPoints()
+        mutateSubjects()
+        mutateTopicPoints()
+        mutateTopics()
+
+        router.push('/')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     if (pathnameArray) {
       setSelectedTopicPoint(
@@ -117,13 +163,13 @@ export default function Page() {
     }
   }, [pathnameArray])
 
-  const handleImageChange = (e: any) => {
-    const data = new FileReader()
-    data.addEventListener('load', () => {
-      setSelectedImage(data.result as string)
-    })
-    data.readAsDataURL(e.target.files[0])
-  }
+  useEffect(() => {
+    setUserCommentList(commentList)
+  }, [commentList])
+
+  useEffect(() => {
+    if (userCommentList) setOpenImageList(userCommentList.map(() => false))
+  }, [userCommentList])
 
   return selectedTopicPoint ? (
     <div className="flex flex-col px-4 md:px-12 lg:px-32 xl:px-40 2xl:px-52 py-20">
@@ -139,7 +185,11 @@ export default function Page() {
         )}
 
         {selectedTopicPoint?.userId == currentUserId && (
-          <TopicPointDeletionButton selectedTopicPoint={selectedTopicPoint} />
+          <DeletionButton
+            primaryText="Diesen Beitrag löschen ?"
+            secondaryText="Daten können nicht wiederhergestellt werden"
+            handleDelete={handleDeleteTopicPoint}
+          />
         )}
 
         <TopicPointFavoriteButton selectedTopicPoint={selectedTopicPoint} />
@@ -236,7 +286,7 @@ export default function Page() {
             .map((userComment: UserComment, index: number) => (
               <div key={index} className="flex flex-col gap-4">
                 <div className="flex flex-col">
-                  <div className="flex">
+                  <div className="flex justify-between">
                     <span
                       className="cursor-pointer hover:underline"
                       onClick={() =>
@@ -245,23 +295,35 @@ export default function Page() {
                     >
                       {userComment.name}
                     </span>
+                    {userComment.userId.toString() ===
+                      getCurrentUserId(cookie.jwtToken).toString() && (
+                      <DeletionButton
+                        primaryText="Diesen Kommentar löschen ?"
+                        handleDelete={() => {
+                          return handleDeleteComment(userComment.userCommentId)
+                        }}
+                      />
+                    )}
                   </div>
 
-                  <div className="flex flex-row gap-2 text-sm">
+                  <div className="flex flex-col xs:flex-row gap-2 text-sm">
                     <span className="font-bold">
                       Gepostet am {userComment.createdAt}
                     </span>
-                    <span className="font-bold">
-                      Score: {userComment.upvoteCount}
-                    </span>
-                    <span
-                      onClick={() => {
-                        handleChangeUpvoteStatus(userComment.userCommentId)
-                      }}
-                      className="hover:underline cursor-pointer"
-                    >
-                      (vote Up)
-                    </span>
+                    <div className="flex flex-row gap-2 text-sm">
+                      {' '}
+                      <span className="font-bold">
+                        Score: {userComment.upvoteCount}
+                      </span>
+                      <span
+                        onClick={() => {
+                          handleChangeUpvoteStatus(userComment.userCommentId)
+                        }}
+                        className="hover:underline cursor-pointer"
+                      >
+                        (vote Up)
+                      </span>
+                    </div>
                   </div>
 
                   <div

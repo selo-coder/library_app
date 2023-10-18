@@ -5,9 +5,7 @@ const Footer = dynamic(() => import('./Footer'))
 const Breadcrumbs = dynamic(() => import('./Breadcrumbs'))
 const Navbar = dynamic(() => import('./Navbar'))
 const Sidebar = dynamic(() => import('./Sidebar'))
-const TopicPointDeletionButton = dynamic(
-  () => import('./TopicPointDeletionButton')
-)
+const TopicPointDeletionButton = dynamic(() => import('./DeletionButton'))
 const TopicPointFavoriteButton = dynamic(
   () => import('./TopicPointFavoriteButton')
 )

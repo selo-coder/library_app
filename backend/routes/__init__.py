@@ -19,6 +19,7 @@ from .create_comment import *
 from .change_upvote_status import *
 from .get_comments_by_topic_point_id import *
 from .update_user_data import *
+from .delete_comment import *
 
 
 
