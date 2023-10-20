@@ -139,6 +139,24 @@ export default function Page() {
     if (userCommentList) setOpenImageList(userCommentList.map(() => false))
   }, [userCommentList])
 
+  function getWeekdayName(dayNumber: number) {
+    const weekdays = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ]
+
+    if (dayNumber >= 0 && dayNumber <= 6) {
+      return weekdays[dayNumber].substring(0, 3)
+    } else {
+      return 'Invalid day number'
+    }
+  }
+
   return selectedTopicPoint ? (
     <div className="flex flex-col px-4 md:px-12 lg:px-32 xl:px-40 2xl:px-52 py-20">
       <div className="flex justify-end flex-row gap-3">
@@ -205,90 +223,99 @@ export default function Page() {
               currentPage * userCommentPerPage,
               (currentPage + 1) * userCommentPerPage
             )
-            .map((userComment: UserComment, index: number) => (
-              <div key={index} className="flex flex-col gap-4">
-                <div className="flex flex-col">
-                  <div className="flex justify-between">
-                    <span
-                      className="cursor-pointer hover:underline"
-                      onClick={() =>
-                        router.push('/users/' + userComment.userId)
-                      }
-                    >
-                      {userComment.name}
-                    </span>
-                    {userComment.userId.toString() ===
-                      getCurrentUserId(cookie.jwtToken).toString() && (
-                      <DeletionButton
-                        primaryText="Diesen Kommentar löschen ?"
-                        handleDelete={() => {
-                          return handleDeleteComment(userComment.userCommentId)
-                        }}
-                      />
-                    )}
-                  </div>
-
-                  <div className="flex flex-col xs:flex-row gap-2 text-sm">
-                    <span className="font-bold">
-                      Gepostet am {userComment.createdAt}
-                    </span>
-                    <div className="flex flex-row gap-2 text-sm">
-                      {' '}
-                      <span className="font-bold">
-                        Score: {userComment.upvoteCount}
-                      </span>
+            .map((userComment: UserComment, index: number) => {
+              const createdDate = new Date(userComment.createdAt)
+              return (
+                <div key={index} className="flex flex-col gap-4">
+                  <div className="flex flex-col">
+                    <div className="flex justify-between">
                       <span
-                        onClick={() => {
-                          handleChangeUpvoteStatus(userComment.userCommentId)
-                        }}
-                        className="hover:underline cursor-pointer"
-                      >
-                        (vote Up)
-                      </span>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`py-4 ${
-                      openImageList[index] === true ? '' : 'flex flex-row gap-8'
-                    }`}
-                  >
-                    {userComment && userComment.imageBase64String !== '' && (
-                      <Image
-                        onClick={() => {
-                          handleOpenImageChange(index)
-                        }}
-                        alt=""
-                        width={500}
-                        height={500}
-                        className={`${
-                          openImageList[index] === true
-                            ? 'max-w-full max-h-full'
-                            : 'w-60'
-                        } cursor-pointer `}
-                        src={
-                          userComment?.imageBase64String?.slice(
-                            2,
-                            userComment?.imageBase64String.length - 1
-                          ) || ''
+                        className="cursor-pointer hover:underline"
+                        onClick={() =>
+                          router.push('/users/' + userComment.userId)
                         }
-                      />
-                    )}
-                    <div className="flex flex-col gap-3 py-4">
-                      <span className="break-all whitespace-pre-line text-sm ">
-                        {userComment.comment}
+                      >
+                        {userComment.name}
                       </span>
+                      {userComment.userId.toString() ===
+                        getCurrentUserId(cookie.jwtToken).toString() && (
+                        <DeletionButton
+                          primaryText="Diesen Kommentar löschen ?"
+                          handleDelete={() => {
+                            return handleDeleteComment(
+                              userComment.userCommentId
+                            )
+                          }}
+                        />
+                      )}
                     </div>
-                  </div>
-                  <div className="pb-4">
+
+                    <div className="flex flex-col xs:flex-row gap-2 text-sm">
+                      <span className="font-bold">{`${createdDate.getDate()}/${
+                        createdDate.getMonth() + 1
+                      }/${createdDate.getFullYear()}(${getWeekdayName(
+                        createdDate.getDay()
+                      )})${createdDate.toLocaleTimeString()}`}</span>
+                      <div className="flex flex-row gap-2 text-sm">
+                        {' '}
+                        <span className="font-bold">
+                          Score: {userComment.upvoteCount}
+                        </span>
+                        <span
+                          onClick={() => {
+                            handleChangeUpvoteStatus(userComment.userCommentId)
+                          }}
+                          className="hover:underline cursor-pointer"
+                        >
+                          (vote Up)
+                        </span>
+                      </div>
+                    </div>
+
                     <div
-                      style={{ height: '1px' }}
-                      className="w-full bg-gray-600 rounded"
-                    />
+                      className={`py-4 ${
+                        openImageList[index] === true
+                          ? ''
+                          : 'flex flex-row gap-8'
+                      }`}
+                    >
+                      {userComment && userComment.imageBase64String !== '' && (
+                        <Image
+                          onClick={() => {
+                            handleOpenImageChange(index)
+                          }}
+                          alt=""
+                          width={500}
+                          height={500}
+                          className={`${
+                            openImageList[index] === true
+                              ? 'max-w-full max-h-full'
+                              : 'w-60'
+                          } cursor-pointer `}
+                          src={
+                            userComment?.imageBase64String?.slice(
+                              2,
+                              userComment?.imageBase64String.length - 1
+                            ) || ''
+                          }
+                        />
+                      )}
+                      <div className="flex flex-col gap-3 py-4">
+                        <span className="break-all whitespace-pre-line text-sm ">
+                          {userComment.comment}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="pb-4">
+                      <div
+                        style={{ height: '1px' }}
+                        className="w-full bg-gray-600 rounded"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              )
+            })
         ) : (
           <div>Keine Kommentare</div>
         )}
