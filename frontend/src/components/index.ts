@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic'
 import NextAppContext from './NextAppContext'
+import UserCommentCreation from './UserCommentCreation'
 
 const Footer = dynamic(() => import('./Footer'))
 const Breadcrumbs = dynamic(() => import('./Breadcrumbs'))
@@ -27,4 +28,5 @@ export {
   TopicSlider,
   NextAppContext,
   AccountDropDownMenu,
+  UserCommentCreation,
 }

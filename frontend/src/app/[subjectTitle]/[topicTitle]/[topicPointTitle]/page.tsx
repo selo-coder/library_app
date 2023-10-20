@@ -5,11 +5,15 @@ import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getCrumbsFromPathname, getCurrentUserId } from 'utils'
 import { useCookies } from 'react-cookie'
-import { NextAppContext, TopicPoint, UserComment } from 'components'
+import {
+  NextAppContext,
+  TopicPoint,
+  UserComment,
+  UserCommentCreation,
+} from 'components'
 import {
   useGetCommentsByTopicPointId,
   changeUpvoteStatus,
-  createComment,
   deleteComment,
   deleteTopicPoint,
   useGetRecentTopicPoints,
@@ -32,10 +36,6 @@ const Pagination = dynamic(
   () => import('../../../../components/common/Pagination')
 )
 
-const TextareaInput = dynamic(
-  () => import('../../../../components/common/TextareaInput')
-)
-
 const Pen = dynamic(() => import('../../../../assets/Pen'))
 
 export default function Page() {
@@ -44,11 +44,9 @@ export default function Page() {
   const pathnameArray = getCrumbsFromPathname()
 
   const [cookie] = useCookies(['jwtToken'])
-  const [showInput, setShowInput] = useState(false)
-  const [textAreaInput, setTextAreaInput] = useState('')
+
   const [update, setUpdate] = useState(false)
   const [openImageList, setOpenImageList] = useState<boolean[]>([])
-  const [selectedImage, setSelectedImage] = useState('')
   const [userCommentPerPage] = useState<number>(4)
   const [currentPage, setCurrentPage] = useState<number>(0)
   const currentUserId = getCurrentUserId(cookie.jwtToken)
@@ -65,14 +63,6 @@ export default function Page() {
   )
   const { mutateTopics } = useGetTopicsBySubjectTitle(pathnameArray[0])
 
-  const handleImageChange = (e: any) => {
-    const data = new FileReader()
-    data.addEventListener('load', () => {
-      setSelectedImage(data.result as string)
-    })
-    data.readAsDataURL(e.target.files[0])
-  }
-
   const handleOpenImageChange = (imageIndex: number) => {
     openImageList.splice(imageIndex, 1, !openImageList[imageIndex])
     setUpdate(!update)
@@ -87,28 +77,6 @@ export default function Page() {
         body: { userId: currentUserId, userCommentId },
       })
       if (response.statusCode === 200 && selectedTopicPoint) mutate()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const handleCreateComment = async (): Promise<void> => {
-    try {
-      const response = await createComment({
-        jwtToken: cookie.jwtToken,
-        body: {
-          userId: currentUserId,
-          topicPointId: selectedTopicPoint?.topicPointId || '',
-          comment: textAreaInput,
-          ...(selectedImage && { imageBase64String: selectedImage }),
-        },
-      })
-      if (response.statusCode === 200 && selectedTopicPoint) {
-        mutate()
-        setShowInput(false)
-        setTextAreaInput('')
-        setSelectedImage('')
-      }
     } catch (error) {
       console.log(error)
     }
@@ -221,57 +189,11 @@ export default function Page() {
       <div
         className={`dark:text-brightModeColor text-darkModeColor flex flex-col gap-5 mt-24`}
       >
-        <div
-          className={`flex flex-col lg:flex-row justify-between gap-6 lg:gap-0 lg:items-center mb-4`}
-        >
-          <span className={'text-lg font-bold underline'}>Kommentare</span>
-          <button
-            onClick={() => setShowInput(!showInput)}
-            className={`dark:text-brightModeColor text-darkModeColor border-2 border-red-500 hover:bg-red-500 hover:text-white rounded p-2`}
-          >
-            Kommentar verfassen
-          </button>
-        </div>
-        {showInput && (
-          <div className="flex flex-col gap-4 mb-4 w-full">
-            <div className="text-black w-full">
-              <TextareaInput
-                content={textAreaInput}
-                setContent={setTextAreaInput}
-                size="small"
-              />
-            </div>
-
-            <div className="flex flex-col-reverse lg:flex-row w-full gap-3 lg:gap-2 justify-between items-center">
-              <div className="flex flex-row w-full gap-2">
-                <button
-                  onClick={() => {
-                    if ((textAreaInput || selectedImage) && showInput) {
-                      handleCreateComment()
-                    }
-                  }}
-                  className={`dark:text-brightModeColor text-darkModeColor border-2 border-red-500 hover:bg-red-500 hover:text-white rounded py-1 px-2`}
-                >
-                  Erstellen
-                </button>
-                <button
-                  onClick={() => setShowInput(false)}
-                  className={`dark:text-brightModeColor text-darkModeColor border-2 border-red-500 hover:bg-red-500 hover:text-white rounded py-1 px-2`}
-                >
-                  Abbrechen
-                </button>
-              </div>
-              <div className="w-full flex flex-col items-start lg:items-end	">
-                <input
-                  className="text-white "
-                  type="file"
-                  accept=".png,.jpg,.jpeg"
-                  onChange={handleImageChange}
-                />
-              </div>
-            </div>
-          </div>
-        )}
+        <UserCommentCreation
+          mutate={mutate}
+          currentUserId={currentUserId}
+          selectedTopicPoint={selectedTopicPoint}
+        />
 
         {!isLoading && userCommentList && userCommentList.length > 0 ? (
           userCommentList
