@@ -1,13 +1,15 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { User } from 'components'
+import { NextAppContext, User } from 'components'
 import { useGetUserList } from 'api'
 import { UserIcon } from 'assets'
+import { redirectToUserPage } from 'utils'
+import { useContext } from 'react'
 
 export default function Page() {
   const router = useRouter()
-
+  const { myUserId } = useContext(NextAppContext)
   const { userList, isLoading } = useGetUserList()
 
   return (
@@ -21,7 +23,9 @@ export default function Page() {
             <UserIcon className="w-14 h-14 stroke-red-500" />
             <div className="px-3 flex flex-col gap-4">
               <span
-                onClick={() => router.push('/users/' + user.userId)}
+                onClick={() =>
+                  redirectToUserPage(user.userId, myUserId, router)
+                }
                 className="text-white break-all cursor-pointer hover:underline font-bold"
               >
                 {user.userName}

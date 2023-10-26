@@ -1,15 +1,18 @@
 'use client'
 
-import { useCookies } from 'react-cookie'
 import { useGetFavoriteTopicPointsByUserId } from 'api'
-import { TopicPoint, TopicPointList, TopicSlider } from 'components'
-import { getCurrentUserId } from 'utils'
+import {
+  NextAppContext,
+  TopicPoint,
+  TopicPointList,
+  TopicSlider,
+} from 'components'
+import { useContext } from 'react'
 
 export default function Page() {
-  const [cookie] = useCookies(['jwtToken'])
-
+  const { myUserId } = useContext(NextAppContext)
   const { favoriteTopicPointsList, isLoading } =
-    useGetFavoriteTopicPointsByUserId(getCurrentUserId(cookie.jwtToken))
+    useGetFavoriteTopicPointsByUserId(myUserId)
 
   return !isLoading && favoriteTopicPointsList.length > 0 ? (
     <div className=" py-8 flex flex-col items-center">

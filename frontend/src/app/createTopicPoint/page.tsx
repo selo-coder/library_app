@@ -3,7 +3,7 @@
 import { useCookies } from 'react-cookie'
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { checkForErrors, filterErrors, getCurrentUserId } from 'utils'
+import { checkForErrors, filterErrors } from 'utils'
 import { ErrorType } from 'types'
 import { createTopicPoint, useGetRecentTopicPoints, useGetSubjects } from 'api'
 import {
@@ -19,7 +19,7 @@ import { ArrowLeft, ArrowUp, Spinner } from 'assets'
 
 export default function Page() {
   const [cookie] = useCookies(['jwtToken'])
-  const { subjectList, setTopicList, setTopicPointsList } =
+  const { subjectList, setTopicList, setTopicPointsList, myUserId } =
     useContext(NextAppContext)
 
   const [subjectDropDownIsOpen, setSubjectDropDownIsOpen] =
@@ -102,7 +102,7 @@ export default function Page() {
 
           const obj = {
             jwtToken: cookie.jwtToken,
-            userId: getCurrentUserId(cookie.jwtToken),
+            userId: myUserId,
             content: content,
             createNewTopic: showCreateTopicCreation,
             subjectId: currentSelectedSubject?.subjectId || '',

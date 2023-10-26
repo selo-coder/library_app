@@ -6,6 +6,8 @@ import { useGetTopicPointsByUserId } from './useGetTopicPointsByUserId'
 import { useGetUserList } from './useGetUserList'
 import { useGetFavoriteTopicPointsByUserId } from './useGetFavoriteTopicPointsByUserId'
 import { useGetTopicsBySubjectTitle } from './useGetTopicsBySubjectTitle'
+import { useGetSuggestions } from './useGetSuggestions'
+import { useGetSearchResults } from './useGetSearchResults'
 
 export * from './auth'
 export * from './topicPoints'
@@ -20,4 +22,6 @@ export {
   useGetUserList,
   useGetFavoriteTopicPointsByUserId,
   useGetTopicsBySubjectTitle,
+  useGetSuggestions,
+  useGetSearchResults,
 }

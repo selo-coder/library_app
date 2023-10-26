@@ -17,6 +17,7 @@ const Breadcrumbs: FC = (): JSX.Element => {
     { pathname: 'accountSafety', display: 'Kontosicherheit' },
     { pathname: 'manageFriends', display: 'Freunde' },
     { pathname: 'myHistory', display: 'Mein Verlauf' },
+    { pathname: 'searchResults', display: 'Suche' },
     { pathname: 'others', display: 'Sonstiges' },
   ]
 

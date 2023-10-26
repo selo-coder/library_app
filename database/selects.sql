@@ -10,9 +10,9 @@ DELETE FROM UserCommentUpvotes WHERE userCommentId = 1;
 
 SELECT * FROM TopicPoints;
 
-SELECT * FROM Topics;
+SELECT * FROM TopicPoints tp INNER JOIN Topics t on t.topicId = tp.topicId INNER JOIN Subjects s on t.subjectId = s.subjectId WHERE tp.topicPointTitle LIKE '%Schlacht%' LIMIT 10;
 
-DELETE FROM UserCommentUpvotes WHERE find_in_set(userCommentId, );
+SELECT * FROM Topics;
 
 SELECT uc.userCommentId, concat(u.firstName,' ', u.lastName) as name, uc.comment, count(ucv.userCommentId) as upvoteCount, uc.createdAt FROM UserComments uc INNER JOIN TopicPoints tp ON tp.topicPointId = uc.topicPointId LEFT JOIN UserCommentUpvotes ucv ON uc.userCommentId = ucv.userCommentId INNER JOIN User u ON u.id = uc.userId WHERE uc.topicPointId = 1 group by uc.userCommentId;
 

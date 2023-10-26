@@ -13,7 +13,7 @@ import {
 } from 'components'
 import { useCookies } from 'react-cookie'
 import { useRouter } from 'next/navigation'
-import { checkForErrors, filterErrors, getCurrentUserId } from 'utils'
+import { checkForErrors, filterErrors } from 'utils'
 import {
   useGetTopicPointsByUserId,
   useGetRecentTopicPoints,
@@ -26,7 +26,7 @@ import { ArrowLeft, ArrowUp, Spinner } from 'assets'
 export default function Page({ params }: { params: { topicPointId: string } }) {
   const [cookie] = useCookies(['jwtToken'])
 
-  const { subjectList, setTopicPointsList, setTopicList } =
+  const { subjectList, setTopicPointsList, setTopicList, myUserId } =
     useContext(NextAppContext)
 
   const [selectedTopicPoint, setSelectedTopicPoint] = useState<TopicPoint>(
@@ -66,7 +66,7 @@ export default function Page({ params }: { params: { topicPointId: string } }) {
   const router = useRouter()
 
   const { userTopicPointsList, mutateUserTopicPoints } =
-    useGetTopicPointsByUserId(getCurrentUserId(cookie.jwtToken))
+    useGetTopicPointsByUserId(myUserId)
 
   useEffect(() => {
     if (createClicked)

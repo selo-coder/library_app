@@ -15,6 +15,8 @@ import Cross from './Cross'
 import Pen from './Pen'
 import Sun from './Sun'
 import Moon from './Moon'
+import Bars from './Bars'
+import Blocks from './Blocks'
 
 export {
   Book,
@@ -34,4 +36,6 @@ export {
   Pen,
   Sun,
   Moon,
+  Bars,
+  Blocks,
 }

@@ -14,6 +14,7 @@ import useCookies from 'react-cookie/es6/useCookies'
 import jwt_decode, { JwtPayload } from 'jwt-decode'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import { getCurrentUserId } from 'utils'
 
 const Footer = dynamic(() => import('../components/Footer'))
 
@@ -51,12 +52,12 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
   const [cookie] = useCookies(['jwtToken'])
   const pathname = usePathname()
   const [loggedIn, setLoggedIn] = useState<boolean>()
-
   const [darkModeActive, setDarkModeActive] = useState<boolean>()
   const [subjectList, setSubjectList] = useState<SubjectList>([] as SubjectList)
   const [topicPointsList, setTopicPointsList] = useState<TopicPointList>(
     {} as TopicPointList
   )
+  const [myUserId] = useState(getCurrentUserId(cookie.jwtToken))
 
   const [topicList, setTopicList] = useState<Subject>({} as Subject)
 
@@ -94,6 +95,7 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
               setTopicList,
               loggedIn,
               setLoggedIn,
+              myUserId,
             }}
           >
             {loggedIn === true && !pathname.includes('auth') ? (

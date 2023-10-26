@@ -6,7 +6,7 @@ import { useBreakpoint } from 'utils'
 import { useRouter } from 'next/navigation'
 import { useGetSubjects } from 'api'
 import dynamic from 'next/dynamic'
-import { NextAppContext, Sidebar, Subject } from 'components'
+import { NextAppContext, SearchBar, Sidebar, Subject } from 'components'
 
 const NavbarItem = dynamic(() => import('./NavbarItem'))
 
@@ -52,15 +52,23 @@ const Navbar: FC = (): JSX.Element => {
       <div
         className={`w-full h-32 flex z-40 flex-row justify-between dark:bg-darkModeColor bg-brightModeColor`}
       >
-        <div
-          onClick={() => router.push('/')}
-          className="flex flex-row cursor-pointer justify-center items-center gap-3 ml-6"
-        >
-          <span className="font-bold text-xl text-red-500">Library App</span>
-          <Book className="w-20 h-20 text-red-500 stroke-red-500" />
+        <div className="flex flex-col md:gap-4 justify-between md:flex-row w-full">
+          <div
+            onClick={() => router.push('/')}
+            className="flex flex-row cursor-pointer justify-start md:justify-center items-center gap-3 ml-6"
+          >
+            <span className="font-bold text-xl text-red-500">Library App</span>
+            <Book className="w-20 h-20 text-red-500 stroke-red-500" />
+          </div>
+
+          <SearchBar />
         </div>
-        <ProfileOverview />
+
+        <div className="flex w-1/2 justify-end">
+          <ProfileOverview />
+        </div>
       </div>
+
       <div
         style={{ minHeight: '128px' }}
         className="w-full h-16 md:h-32 bg-red-500 shadow-md flex px-4 flex-row items-center text-white overflow-visible"

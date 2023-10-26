@@ -1,23 +1,27 @@
 'use client'
 
-import { TopicSlider, TopicPoint, TopicPointList } from 'components'
+import {
+  TopicSlider,
+  TopicPoint,
+  TopicPointList,
+  NextAppContext,
+} from 'components'
 import { useGetTopicPointsByUserId } from 'api'
-import { getCurrentUserId } from 'utils'
-import { useCookies } from 'react-cookie'
+import { useContext } from 'react'
 
 export default function Page({ params }: { params: { userId: string } }) {
+  const { myUserId } = useContext(NextAppContext)
+
   const { userTopicPointsList, isLoading } = useGetTopicPointsByUserId(
     params.userId
   )
-
-  const [cookie] = useCookies(['jwtToken'])
 
   return !isLoading && userTopicPointsList.length > 0 ? (
     <div className=" py-8 flex flex-col items-center">
       <span
         className={`text-4xl mt-8 dark:text-brightModeColor text-darkModeColor`}
       >
-        {getCurrentUserId(cookie.jwtToken) ===
+        {myUserId ===
         userTopicPointsList[0]?.topicPointList[0]?.userId.toString()
           ? 'Meine Beiträge'
           : 'Alle Beiträge von ' +

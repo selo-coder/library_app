@@ -9,6 +9,9 @@ interface InputProps {
   disabled?: boolean
   value?: string
   onChange: (value: string) => void
+  onFocus?: () => void
+  onBlur?: () => void
+  size?: 'small' | 'medium' | 'big'
 }
 const Input: FC<InputProps> = ({
   errorMessage = [],
@@ -19,6 +22,9 @@ const Input: FC<InputProps> = ({
   value,
   disabled = false,
   onChange,
+  onFocus,
+  onBlur,
+  size = 'medium',
 }) => {
   return (
     <div className={className}>
@@ -28,11 +34,15 @@ const Input: FC<InputProps> = ({
         {errorMessage}
       </span>
       <input
-        className={
-          'w-full h-12 bg-backgroundGray text-gray-500 px-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary'
-        }
+        className={`w-full ${size === 'small' && 'h-10'} ${
+          size === 'medium' && 'h-12'
+        } ${
+          size === 'big' && 'h-14'
+        } bg-backgroundGray text-gray-500 px-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary`}
         type={type}
         value={value}
+        onFocus={onFocus}
+        onBlur={onBlur}
         disabled={disabled}
         maxLength={maxLength || 100}
         placeholder={placeHolder}

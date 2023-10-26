@@ -1,6 +1,7 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import { useRouter } from 'next/navigation'
-import { TopicPoint, TopicPointList } from 'components'
+import { NextAppContext, TopicPoint, TopicPointList } from 'components'
+import { redirectToUserPage } from 'utils'
 
 interface TopicPointCardProps {
   topicPoint: TopicPoint
@@ -12,6 +13,7 @@ const TopicPointCard: FC<TopicPointCardProps> = ({
   actualTopicPointsList,
 }): JSX.Element => {
   const router = useRouter()
+  const { myUserId } = useContext(NextAppContext)
 
   return (
     <div className="border-4 px-4 py-4 flex gap-3 flex-col bg-red-500 rounded-md border-red-600">
@@ -23,7 +25,9 @@ const TopicPointCard: FC<TopicPointCardProps> = ({
       </div>
       <div className="flex flex-col gap-3 lg:gap-0 lg:flex-row justify-between">
         <span
-          onClick={() => router.push('/users/' + topicPoint.userId)}
+          onClick={() =>
+            redirectToUserPage(topicPoint.userId, myUserId, router)
+          }
           className={`hover:underline cursor-pointer`}
         >
           Erstellt von: {topicPoint.createdBy}

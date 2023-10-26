@@ -3,7 +3,7 @@
 
 import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { getCrumbsFromPathname, getCurrentUserId } from 'utils'
+import { getCrumbsFromPathname, redirectToUserPage } from 'utils'
 import { useCookies } from 'react-cookie'
 import {
   NextAppContext,
@@ -39,7 +39,7 @@ const Pagination = dynamic(
 const Pen = dynamic(() => import('../../../../assets/Pen'))
 
 export default function Page() {
-  const { topicPointsList } = useContext(NextAppContext)
+  const { topicPointsList, myUserId } = useContext(NextAppContext)
   const router = useRouter()
   const pathnameArray = getCrumbsFromPathname()
 
@@ -49,7 +49,6 @@ export default function Page() {
   const [openImageList, setOpenImageList] = useState<boolean[]>([])
   const [userCommentPerPage] = useState<number>(4)
   const [currentPage, setCurrentPage] = useState<number>(0)
-  const currentUserId = getCurrentUserId(cookie.jwtToken)
   const [selectedTopicPoint, setSelectedTopicPoint] = useState<TopicPoint>()
   const [userCommentList, setUserCommentList] = useState<UserComment[]>()
 
@@ -74,7 +73,7 @@ export default function Page() {
     try {
       const response = await changeUpvoteStatus({
         jwtToken: cookie.jwtToken,
-        body: { userId: currentUserId, userCommentId },
+        body: { userId: myUserId, userCommentId },
       })
       if (response.statusCode === 200 && selectedTopicPoint) mutate()
     } catch (error) {
@@ -160,7 +159,7 @@ export default function Page() {
   return selectedTopicPoint ? (
     <div className="flex flex-col px-4 md:px-12 lg:px-32 xl:px-40 2xl:px-52 py-20">
       <div className="flex justify-end flex-row gap-3">
-        {selectedTopicPoint?.userId == currentUserId && (
+        {selectedTopicPoint?.userId == myUserId && (
           <div
             onClick={() =>
               router.push('/editTopicPoint/' + selectedTopicPoint.topicPointId)
@@ -170,7 +169,7 @@ export default function Page() {
           </div>
         )}
 
-        {selectedTopicPoint?.userId == currentUserId && (
+        {selectedTopicPoint?.userId == myUserId && (
           <DeletionButton
             primaryText="Diesen Beitrag löschen ?"
             secondaryText="Daten können nicht wiederhergestellt werden"
@@ -209,7 +208,7 @@ export default function Page() {
       >
         <UserCommentCreation
           mutate={mutate}
-          currentUserId={currentUserId}
+          currentUserId={myUserId}
           selectedTopicPoint={selectedTopicPoint}
         />
 
@@ -232,13 +231,17 @@ export default function Page() {
                       <span
                         className="cursor-pointer hover:underline"
                         onClick={() =>
-                          router.push('/users/' + userComment.userId)
+                          redirectToUserPage(
+                            userComment.userId,
+                            myUserId,
+                            router
+                          )
                         }
                       >
                         {userComment.name}
                       </span>
                       {userComment.userId.toString() ===
-                        getCurrentUserId(cookie.jwtToken).toString() && (
+                        myUserId.toString() && (
                         <DeletionButton
                           primaryText="Diesen Kommentar löschen ?"
                           handleDelete={() => {

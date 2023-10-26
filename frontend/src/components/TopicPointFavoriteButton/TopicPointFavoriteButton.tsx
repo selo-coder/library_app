@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import { Star } from 'assets'
 import { useCookies } from 'react-cookie'
 import {
@@ -6,8 +6,8 @@ import {
   useGetRecentTopicPoints,
   useGetTopicPointsBySubjectTitle,
 } from 'api'
-import { getCrumbsFromPathname, getCurrentUserId } from 'utils'
-import { TopicPoint } from 'components'
+import { getCrumbsFromPathname } from 'utils'
+import { NextAppContext, TopicPoint } from 'components'
 
 interface TopicPointFavoriteButtonProps {
   selectedTopicPoint: TopicPoint
@@ -19,6 +19,7 @@ const TopicPointFavoriteButton: FC<TopicPointFavoriteButtonProps> = ({
   const pathnameArray = getCrumbsFromPathname()
 
   const [cookie] = useCookies(['jwtToken'])
+  const { myUserId } = useContext(NextAppContext)
 
   const { mutateTopicPoints } = useGetTopicPointsBySubjectTitle(
     pathnameArray[0]
@@ -31,7 +32,7 @@ const TopicPointFavoriteButton: FC<TopicPointFavoriteButtonProps> = ({
       const response = await changeFavoriteTopicPoint({
         jwtToken: cookie.jwtToken,
         body: {
-          userId: getCurrentUserId(cookie.jwtToken),
+          userId: myUserId,
           topicPointId: selectedTopicPoint?.topicPointId.toString() || '',
           favorite: selectedTopicPoint?.favorite === true ? 'true' : 'false',
         },

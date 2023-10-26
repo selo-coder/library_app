@@ -1,6 +1,8 @@
 import dynamic from 'next/dynamic'
 import NextAppContext from './NextAppContext'
 import UserCommentCreation from './UserCommentCreation'
+import SearchBar from './SearchBar'
+import HighlightText from './HighlightText'
 
 const Footer = dynamic(() => import('./Footer'))
 const Breadcrumbs = dynamic(() => import('./Breadcrumbs'))
@@ -29,4 +31,6 @@ export {
   NextAppContext,
   AccountDropDownMenu,
   UserCommentCreation,
+  SearchBar,
+  HighlightText,
 }

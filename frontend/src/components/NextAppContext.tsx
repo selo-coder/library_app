@@ -65,6 +65,7 @@ export type NextAppContextType = {
   setTopicList: (topicPointList: Subject) => void
   loggedIn: boolean | undefined
   setLoggedIn: (loggedIn: boolean | undefined) => void
+  myUserId: string
 }
 
 const NextAppContext = createContext<NextAppContextType>({
@@ -76,6 +77,7 @@ const NextAppContext = createContext<NextAppContextType>({
   setTopicList: () => {},
   loggedIn: false,
   setLoggedIn: () => {},
+  myUserId: '',
 })
 
 export default NextAppContext

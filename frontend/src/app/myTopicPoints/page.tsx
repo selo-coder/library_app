@@ -1,14 +1,16 @@
 'use client'
 
-import { useCookies } from 'react-cookie'
-import { getCurrentUserId } from 'utils'
 import { useGetTopicPointsByUserId } from 'api'
-import { TopicPoint, TopicPointList, TopicSlider } from 'components'
+import {
+  NextAppContext,
+  TopicPoint,
+  TopicPointList,
+  TopicSlider,
+} from 'components'
+import { useContext } from 'react'
 
 export default function Page() {
-  const [cookie] = useCookies(['jwtToken'])
-  const myUserId = getCurrentUserId(cookie.jwtToken)
-
+  const { myUserId } = useContext(NextAppContext)
   const { userTopicPointsList } = useGetTopicPointsByUserId(myUserId)
 
   return userTopicPointsList && userTopicPointsList.length > 0 ? (

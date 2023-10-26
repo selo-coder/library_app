@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import { useKeenSlider } from 'keen-slider/react'
-import { useBreakpoint } from 'utils'
-import { RecentTopicPoint } from 'components'
+import { redirectToUserPage, useBreakpoint } from 'utils'
+import { NextAppContext, RecentTopicPoint } from 'components'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
@@ -17,14 +17,13 @@ interface TopicSliderProps {
 const TopicSlider: FC<TopicSliderProps> = ({
   topicPoints,
   title,
-  linkToUser = false,
+  linkToUser = true,
 }): JSX.Element => {
   const router = useRouter()
   const [loaded, setLoaded] = useState(false)
-
   const [breakpoint] = useBreakpoint()
   const [, setCurrentSlide] = useState<number>()
-
+  const { myUserId } = useContext(NextAppContext)
   const [slidesPerView, setSlidesPerView] = useState<number>(4)
   const [sliderRef, slider] = useKeenSlider(
     {
@@ -155,7 +154,11 @@ const TopicSlider: FC<TopicSliderProps> = ({
                       </span>
                       <span
                         onClick={() =>
-                          router.push('/users/' + topicPoint.userId)
+                          redirectToUserPage(
+                            topicPoint.userId,
+                            myUserId,
+                            router
+                          )
                         }
                         className={`text-xs ${
                           linkToUser && 'hover:underline cursor-pointer'

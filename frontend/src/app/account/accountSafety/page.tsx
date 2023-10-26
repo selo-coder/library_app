@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { ErrorMessage, Input } from 'components'
+import { useContext, useEffect, useState } from 'react'
+import { ErrorMessage, Input, NextAppContext } from 'components'
 import { ErrorType } from 'types'
-import { getCurrentUserId, hash } from 'utils'
+import { hash } from 'utils'
 import * as EmailValidator from 'email-validator'
 import { useCookies } from 'react-cookie'
 import { updateUserData } from 'api'
@@ -23,7 +23,7 @@ export default function Page() {
   const [passwordErrorMessages, setPasswordErrorMessages] = useState<string[]>(
     []
   )
-
+  const { myUserId } = useContext(NextAppContext)
   const [cookie] = useCookies(['jwtToken'])
 
   const [oldEmail, setOldEmail] = useState<string>('')
@@ -129,7 +129,7 @@ export default function Page() {
           const response = await updateUserData({
             jwtToken: cookie.jwtToken,
             body: {
-              userId: getCurrentUserId(cookie.jwtToken),
+              userId: myUserId,
               newPassword: hash(newPassword),
               oldPassword: hash(oldPassword),
             },
@@ -161,7 +161,7 @@ export default function Page() {
           const response = await updateUserData({
             jwtToken: cookie.jwtToken,
             body: {
-              userId: getCurrentUserId(cookie.jwtToken),
+              userId: myUserId,
               oldEmail,
               newEmail,
             },
