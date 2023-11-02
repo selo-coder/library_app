@@ -20,12 +20,12 @@ export default function Page() {
     <div className="px-8 md:px-12 lg:px-20 xl:px-32 2xl:px-40 flex flex-col gap-8 py-8">
       <div className="flex flex-col gap-8">
         <div className="flex flex-row gap-4">
-          <div className="w-full flex items-center ">
+          <div className="w-full flex items-center">
             <span className="text-3xl dark:text-brightModeColor text-darkModeColor">
               Alle Suchergebnisse - {searchParams}
             </span>
           </div>
-          {/* <div className="w-full flex gap-2">
+          <div className="w-full flex gap-2">
             <span
               className="flex items-center"
               onClick={() => {
@@ -54,10 +54,14 @@ export default function Page() {
                 } cursor-pointer w-10 h-10`}
               />
             </span>
-          </div> */}
+          </div>
         </div>
 
-        <div className="flex flex-col gap-5 divide-y dark:text-brightModeColor text-darkModeColor">
+        <div
+          className={`flex gap-5 ${
+            currentViewMode === 'Bars' ? 'divide-y flex-col' : 'flex-wrap'
+          }  dark:text-brightModeColor text-darkModeColor`}
+        >
           {searchResults && searchResults.length > 0 ? (
             searchResults.map(
               (
@@ -70,13 +74,20 @@ export default function Page() {
               ) => (
                 <div
                   key={searchResult.topicPointTitle + index}
-                  className="w-full pt-5 "
+                  className={`${
+                    currentViewMode === 'Blocks'
+                      ? 'border py-5 w-36 xs:w-40'
+                      : 'pt-5 flex'
+                  }`}
                 >
-                  <div className="px-4 flex flex-col">
-                    <span>
-                      {searchResult.subjectTitle}, {searchResult.topicTitle}
-                    </span>
+                  <div className="px-4 divide-y gap-2 flex flex-col">
                     <div className="flex">
+                      <span>
+                        {searchResult.subjectTitle}, {searchResult.topicTitle}
+                      </span>
+                    </div>
+
+                    <div className="flex pt-2">
                       <span
                         onClick={() => {
                           router.push(
@@ -88,7 +99,7 @@ export default function Page() {
                               searchResult.topicPointTitle
                           )
                         }}
-                        className="cursor-pointer hover:underline"
+                        className="cursor-pointer hover:underline font-bold"
                       >
                         {searchResult.topicPointTitle}
                       </span>
