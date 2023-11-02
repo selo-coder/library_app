@@ -58,7 +58,7 @@ const Navbar: FC = (): JSX.Element => {
             className="flex flex-row cursor-pointer justify-start md:justify-center items-center gap-3 ml-6"
           >
             <span className="font-bold text-xl text-red-500">Library App</span>
-            <Book className="w-20 h-20 text-red-500 stroke-red-500" />
+            <Book className="md:w-20 md:h-20 w-16 h-16 text-red-500 stroke-red-500" />
           </div>
 
           <SearchBar />
