@@ -3,6 +3,7 @@ import {
   useBreakpoint,
   getCrumbsFromPathname,
   getCurrentSelectedTopic,
+  getDropDownHeightByCount,
 } from 'utils'
 import { ArrowDown, ArrowUp } from 'assets'
 import { usePathname, useRouter } from 'next/navigation'
@@ -15,6 +16,7 @@ const TopicPointsList = dynamic(() => import('./TopicPointsList'))
 
 const TopicsContent: FC = (): JSX.Element => {
   const { topicPointsList, topicList, subjectList } = useContext(NextAppContext)
+  const router = useRouter()
 
   const pathnameArray = getCrumbsFromPathname(usePathname())
   const currentSelectedTopic = getCurrentSelectedTopic(pathnameArray)
@@ -23,30 +25,6 @@ const TopicsContent: FC = (): JSX.Element => {
   const [showSortDropDown, setShowSortDropDown] = useState(false)
   const [selectedSortMethod, setSelectedSortMethod] =
     useState<SortType>('A - Z')
-
-  const router = useRouter()
-
-  const dropDownCount = topicList?.topicList?.length
-
-  const getDropDownCount = (): string => {
-    return dropDownCount === 0 || dropDownCount === 1 || !dropDownCount
-      ? 'h-[80px]'
-      : dropDownCount === 2
-      ? 'h-[116px]'
-      : dropDownCount === 3
-      ? 'h-[152px]'
-      : dropDownCount === 4
-      ? 'h-[224px]'
-      : dropDownCount === 5
-      ? 'h-[260px]'
-      : dropDownCount === 6
-      ? 'h-[296px]'
-      : dropDownCount === 7
-      ? 'h-[332px]'
-      : dropDownCount === 8
-      ? 'h-[368px]'
-      : ''
-  }
 
   return (
     <div className="px-8 md:px-12 lg:px-20 xl:px-32 2xl:px-40 flex flex-col gap-8 py-8">
@@ -74,7 +52,9 @@ const TopicsContent: FC = (): JSX.Element => {
 
               <div
                 className={`${
-                  showTopicsDropdown ? getDropDownCount() : 'h-0'
+                  showTopicsDropdown
+                    ? getDropDownHeightByCount(topicList?.topicList?.length)
+                    : 'h-0'
                 } duration-250 px-4 mt-4 ease-in-out z-10 transition-[height]`}
               >
                 <div
