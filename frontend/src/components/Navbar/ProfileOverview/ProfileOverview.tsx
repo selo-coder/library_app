@@ -2,8 +2,12 @@ import { FC, useRef, useState } from 'react'
 import { Person } from 'assets'
 import { useOutsideAlerter } from 'utils'
 import ProfileOverviewDropdown from '../ProfileOverviewDropdown'
+import { useCookies } from 'react-cookie'
+// eslint-disable-next-line camelcase
+import jwt_decode from 'jwt-decode'
 
 const ProfileOverview: FC = (): JSX.Element => {
+  const [cookie] = useCookies(['jwtToken'])
   const [showPersonSortDropDown, setShowPersonSortDropDown] =
     useState<boolean>(false)
 
@@ -17,14 +21,22 @@ const ProfileOverview: FC = (): JSX.Element => {
     >
       <div className="relative flex text-center z-30">
         <button
-          onClick={() => {
-            setShowPersonSortDropDown(!showPersonSortDropDown)
-          }}
-          className={`dark:bg-darkModeColor bg-brightModeColor text-xl h-full w-full absolute text-center items-end py-2 z-100 flex flex-row justify-end gap-2 z-30`}
+          className={`dark:bg-darkModeColor cursor-default flex flex-col items-center bg-brightModeColor text-xl h-full w-full absolute text-center items-end py-2 z-100 flex flex-row justify-end gap-2 z-30`}
         >
-          <span className={`truncate text-xs lg:text-sm 2xl:text-lg `}>
+          <span
+            onClick={() => {
+              setShowPersonSortDropDown(!showPersonSortDropDown)
+            }}
+            className={`truncate text-xs cursor-pointer lg:text-sm 2xl:text-lg`}
+          >
             <Person className="w-12 h-12 fill-red-500 rounded-full" />
           </span>
+          {cookie && cookie.jwtToken && (
+            <span className="text-xs text-darkModeColor dark:text-brightModeColor">
+              Angemeldet als{' '}
+              {(jwt_decode(cookie.jwtToken) as { user: string })?.user}
+            </span>
+          )}
         </button>
         <ProfileOverviewDropdown
           setShowPersonSortDropdown={setShowPersonSortDropDown}

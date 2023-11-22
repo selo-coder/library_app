@@ -57,11 +57,15 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
   const [topicPointsList, setTopicPointsList] = useState<TopicPointList>(
     {} as TopicPointList
   )
-  const [myUserId] = useState(getCurrentUserId(cookie.jwtToken))
+  const [myUserId, setMyUserId] = useState(getCurrentUserId(cookie.jwtToken))
 
   const [topicList, setTopicList] = useState<Subject>({} as Subject)
 
   useEffect(() => {
+    if (cookie && cookie.jwtToken) {
+      setMyUserId(getCurrentUserId(cookie.jwtToken))
+    }
+
     const loggedInJWT =
       cookie &&
       cookie.jwtToken &&
@@ -75,7 +79,7 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
     } else if (!loggedInJWT && !pathname.includes('auth')) {
       router.push('/auth/')
     }
-  }, [])
+  }, [cookie])
 
   return (
     <html lang="en">

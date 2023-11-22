@@ -18,7 +18,7 @@ const SearchBar: FC = () => {
 
   return (
     <div className="h-full flex items-end xs:items-center text-white">
-      <div ref={divRef} className="w-full max-w-sm flex flex-row">
+      <div ref={divRef} className="w-full max-w-sm flex flex-row items-center">
         <div className="w-full h-10 relative divide-black divide-y-2">
           <Input
             placeHolder="Beitragsuche"
