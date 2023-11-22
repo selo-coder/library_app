@@ -91,9 +91,9 @@ export default function Page() {
           'Die alte E-Mail war nicht richtig. Bitte Eingabe überprüfen und erneut probieren.',
       },
       {
-        condition: response?.message === 'emailNotChanged',
+        condition: response?.message === 'newEmailWrong',
         errorMessage:
-          'Die neue E-Mail ist mit der Alten identisch. Bitte anpassen und erneut probieren.',
+          'Die neue E-Mail ist mit der Alten identisch oder wird schon verwendet. Bitte anpassen und erneut probieren.',
       },
       {
         condition: response?.message === 'noNewDataGiven',

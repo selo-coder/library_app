@@ -42,10 +42,9 @@ def update_user_data():
                     return {"message": "oldEmailWrong"}, 500
 
                 email_results = execute_sql_select(cursor,
-                                                   f"SELECT * FROM User WHERE email = '{data.get('newEmail')}' "
-                                                   f"and id = '{data.get('userId')}';")
+                                                   f"SELECT * FROM User WHERE email = '{data.get('newEmail')}';")
                 if email_results:
-                    return {"message": "emailNotChanged"}, 500
+                    return {"message": "newEmailWrong"}, 500
 
             if isinstance(data.get('newEmail'), str) or isinstance(data.get('newPassword'), str):
                 execute_sql_insert(db, cursor, f"UPDATE User SET "
