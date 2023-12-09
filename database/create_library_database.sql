@@ -15,7 +15,8 @@ id int primary key not null Auto_increment,
 email varchar(99),
 password varchar(99),
 firstName varchar(99),
-lastName varchar(99)
+lastName varchar(99),
+profileImage LONGBLOB
 );
 
 CREATE TABLE Subjects(
@@ -67,7 +68,7 @@ Foreign Key(userId) references User(id),
 Foreign Key(userCommentId) references UserComments(userCommentId)
 );
 
-Insert into User values (null, 'jo@jooo.de', '', "Selo3", "Yes3");
+Insert into User values (null, 'jo@jooo.de', '', "Selo3", "Yes3", null);
 
 Insert into Subjects values (null, 'Geschichte');
 Insert into Subjects values (null, 'Informatik');

@@ -8,6 +8,7 @@ import { useGetFavoriteTopicPointsByUserId } from './useGetFavoriteTopicPointsBy
 import { useGetTopicsBySubjectTitle } from './useGetTopicsBySubjectTitle'
 import { useGetSuggestions } from './useGetSuggestions'
 import { useGetSearchResults } from './useGetSearchResults'
+import { uploadProfileImage } from './uploadProfileImage'
 
 export * from './auth'
 export * from './topicPoints'
@@ -24,4 +25,5 @@ export {
   useGetTopicsBySubjectTitle,
   useGetSuggestions,
   useGetSearchResults,
+  uploadProfileImage,
 }

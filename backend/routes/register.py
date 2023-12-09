@@ -1,11 +1,9 @@
 import pymysql
 from flask import request
 from flask_cors import cross_origin
-
 from backend.routes import routes
 from backend.app_data import database_config
-from backend.utils import execute_sql_insert
-from backend.utils import execute_sql_select
+from backend.utils import execute_sql_insert, execute_sql_select
 
 
 @routes.route('/auth/register/', methods=['POST'])
@@ -25,7 +23,7 @@ def register():
                                            f"'{data.get('email')}',"
                                            f"'{data.get('password')}', "
                                            f"'{data.get('firstName')}', "
-                                           f"'{data.get('lastName')}');")
+                                           f"'{data.get('lastName')}', null);")
         except:
             return {"message": "Error"}, 500
 

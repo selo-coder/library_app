@@ -114,7 +114,7 @@ const UserCommentCreation: FC<UserCommentCreationProps> = ({
             </div>
             <div className="w-full flex flex-col items-start lg:items-end	">
               <input
-                className="text-white "
+                className="text-white"
                 type="file"
                 accept=".png,.jpg,.jpeg"
                 onChange={handleImageChange}

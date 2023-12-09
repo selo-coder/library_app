@@ -3,10 +3,8 @@ from flask import request, jsonify
 import jwt
 from flask_cors import cross_origin
 import datetime
-
 from backend.routes import routes
-from backend.app_data import database_config
-from backend.app_data import secret_key
+from backend.app_data import database_config, secret_key
 from backend.utils import execute_sql_select
 
 

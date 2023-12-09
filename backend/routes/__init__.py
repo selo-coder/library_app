@@ -22,6 +22,7 @@ from .update_user_data import *
 from .delete_comment import *
 from .get_suggestions import *
 from .get_search_results import *
+from .upload_profile_image import *
 
 
 
